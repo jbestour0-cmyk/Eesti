@@ -41,7 +41,7 @@
   color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg)}
-body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 40px}
+body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 96px}
 .app{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
 button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -51,9 +51,6 @@ button{cursor:pointer}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
 .brand{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.02em;margin-right:auto;display:flex;align-items:baseline;gap:8px;white-space:nowrap;min-width:0}
 .brand small{font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--ink-3);letter-spacing:0}
-.tabs{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:999px}
-.tabs button{border:0;background:transparent;padding:7px 12px;border-radius:999px;font-size:14px;font-weight:700;color:var(--ink-2)}
-.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
 /* accueil */
 .hero{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:end;padding-top:6px}
@@ -156,21 +153,71 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);background:v
 .btns .danger{color:var(--bad)}
 .msg{font-size:14px;color:var(--good);min-height:1em;margin:0}
 .msg.err{color:var(--bad)}
-@media (max-width:460px){.brand small{display:none}.brand{font-size:20px}.tabs button{padding:7px 10px;font-size:13.5px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.row-sub{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:12px 14px 0}
+
+/* barre d'onglets en bas, au pouce */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center}
+.nav-in{display:flex;gap:2px;width:100%;max-width:520px}
+.nav button{flex:1;min-width:0;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 2px;border-radius:12px;font-size:12px;font-weight:700;color:var(--ink-3);min-height:52px}
+.nav button .ic{font-size:20px;line-height:1}
+.nav button[aria-selected="true"]{color:var(--accent);background:var(--accent-soft)}
+
+/* XP & niveaux */
+.xp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.xp-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.xp-lv{font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:-.01em}
+.xp-lv small{font-family:var(--f-body);font-weight:400;color:var(--ink-3);font-size:13px;letter-spacing:0}
+.xp-n{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;white-space:nowrap}
+.xpbar{height:10px;background:var(--surface-2);border-radius:9px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--warn),var(--accent));border-radius:9px;transition:width .6s}
+.sxp{font-size:13px;font-weight:700;color:var(--warn);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* expression du jour */
+.phrase{background:var(--accent-soft);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.phrase .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.phrase .e{font-family:var(--f-display);font-weight:700;font-size:22px;line-height:1.2;letter-spacing:-.01em}
+.phrase .f{font-weight:700;color:var(--ink)}
+.phrase p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.phrase .say{align-self:flex-start;margin-top:4px}
+
+/* toasts, confettis */
+.toasts{position:fixed;left:16px;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.toast{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:700;font-size:15px;box-shadow:0 6px 20px rgba(0,0,0,.25);animation:toastIn .25s ease-out;max-width:100%;text-align:center}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+
+/* récap de fin */
+.recap{width:100%;display:flex}
+.recap div{flex:1;align-items:center}
+.done .xp{width:100%;text-align:left}
+.recap b{color:var(--ink)}
+.recap .xpv{color:var(--warn)}
+
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.badge{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px}
+.badge .bi{font-size:34px;line-height:1.15}
+.badge b{font-size:15px;line-height:1.25}
+.badge span{font-size:12.5px;color:var(--ink-3);line-height:1.35}
+.badge.off .bi{filter:grayscale(1);opacity:.35}
+.badge.off b{color:var(--ink-2)}
+.badge .bp{width:80%;height:4px;background:var(--surface-2);border-radius:9px;overflow:hidden;margin-top:4px}
+.badge .bp i{display:block;height:100%;background:var(--accent)}
+.badge em{font-style:normal;font-size:12px;color:var(--good);font-weight:700}
+
+@media (max-width:460px){.brand small{display:none}.brand{font-size:20px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head><body>
 <div class="app">
   <header class="top">
     <div class="brand">Eesti sõnad <small>estonien de poche</small></div>
-    <nav class="tabs" role="tablist">
-      <button data-v="home" aria-selected="true">Réviser</button>
-      <button data-v="lex" aria-selected="false">Lexique</button>
-      <button data-v="set" aria-selected="false">Réglages</button>
-    </nav>
+    <span class="sxp" id="lvChip"></span>
   </header>
   <main id="main"></main>
 </div>
+<nav class="nav" id="nav" aria-label="Navigation"><div class="nav-in" role="tablist"></div></nav>
+<div class="toasts" id="toasts" aria-live="polite"></div>
 <script>
 // Vocabulaire : [estonien, français, prononciation, exemple ET?, exemple FR?, verify?]
 // Prononciation pour francophone : MAJUSCULES = syllabe accentuée (toujours la 1re en estonien).
@@ -462,6 +509,52 @@ const THEMES = [
 ["kell kolm","à trois heures","KÈLL KOLM"],
 ]},
 ];
+
+// Expression du jour : [estonien, traduction, explication culturelle]
+const PHRASES = [
+["Kass on kotis.","C'est dans la poche. (litt. « le chat est dans le sac »)","Se dit quand une affaire est conclue ou un examen réussi. Très courant au bureau."],
+["Tal on jänes püksis.","Il a la frousse. (litt. « il a un lièvre dans le pantalon »)","Le lièvre est l'animal peureux par excellence dans le folklore estonien."],
+["Hommik on õhtust targem.","La nuit porte conseil. (litt. « le matin est plus sage que le soir »)","Le proverbe préféré des Estoniens pour remettre une décision au lendemain."],
+["Kes ees, see mees.","Premier arrivé, premier servi. (litt. « qui est devant est l'homme »)","Utile dans les files d'attente… et pour les places au sauna."],
+["Tasa sõuad, kaugele jõuad.","Qui va lentement va loin. (litt. « rame doucement, tu iras loin »)","Un proverbe de peuple de marins et de pêcheurs : la patience avant tout."],
+["Harjutamine teeb meistriks.","C'est en forgeant qu'on devient forgeron.","Parfait pour tes révisions quotidiennes !"],
+["Parem hilja kui mitte kunagi.","Mieux vaut tard que jamais.","Même structure qu'en français : facile à retenir."],
+["Kuidas külvad, nõnda lõikad.","On récolte ce que l'on sème.","Un pays longtemps agricole : beaucoup de proverbes parlent des champs."],
+["Iga algus on raske.","Tout début est difficile.","Ce que disent les Estoniens aux étrangers qui apprennent leur langue à 14 cas."],
+["Rääkimine hõbe, vaikimine kuld.","La parole est d'argent, le silence est d'or.","Les Estoniens aiment le silence : se taire ensemble n'a rien de gênant."],
+["Üheksa korda mõõda, üks kord lõika.","Réfléchis avant d'agir. (litt. « mesure neuf fois, coupe une fois »)","En estonien on mesure neuf fois, pas sept comme chez les voisins russes."],
+["Kes otsib, see leiab.","Qui cherche trouve.","Bon à savoir quand on cherche un appartement à Tallinn."],
+["Hädas tuntakse sõpra.","C'est dans le besoin qu'on reconnaît ses amis.","Les amitiés estoniennes sont lentes à naître, mais très solides."],
+["Oma silm on kuningas.","Il faut voir de ses propres yeux. (litt. « son propre œil est roi »)","Pour dire qu'on ne croit que ce qu'on a vérifié soi-même."],
+["Töö kiidab tegijat.","C'est à l'œuvre qu'on reconnaît l'artisan. (litt. « le travail loue celui qui le fait »)","Les Estoniens valorisent le travail bien fait plus que les beaux discours."],
+["Vana armastus ei roosteta.","Les vieilles amours ne rouillent pas.","Se dit aussi pour un vieux hobby qu'on reprend avec plaisir."],
+["Tühi kott ei seisa püsti.","Ventre affamé n'a point d'oreilles. (litt. « un sac vide ne tient pas debout »)","Excuse parfaite pour une pause déjeuner."],
+["Igal oinal oma mihklipäev.","Chacun finit par payer. (litt. « chaque bélier a sa Saint-Michel »)","La Saint-Michel (fin septembre) était le jour où l'on abattait les moutons."],
+["Pada sõimab katelt, ühed mustad mõlemad.","C'est l'hôpital qui se moque de la charité. (litt. « la marmite insulte le chaudron »)","Les deux sont noirs de suie… comme en français, on critique chez l'autre son propre défaut."],
+["Kes teisele auku kaevab, see ise sisse kukub.","Tel est pris qui croyait prendre. (litt. « qui creuse un trou pour l'autre tombe dedans »)","Un classique de la sagesse populaire estonienne."],
+["Hundid söönud, lambad terved.","Tout le monde est content. (litt. « les loups ont mangé, les moutons sont saufs »)","L'équivalent de « ménager la chèvre et le chou » : le compromis parfait."],
+["Nagu kaks tilka vett.","Comme deux gouttes d'eau.","Exactement la même image qu'en français."],
+["Nagu kuu pealt kukkunud.","Tombé de la lune.","Pour quelqu'un qui ne comprend rien à ce qui se passe."],
+["Mis mõttes?","Comment ça ? (litt. « dans quel sens ? »)","Une des questions les plus entendues à Tallinn, souvent avec un sourcil levé."],
+["Vahet pole.","Peu importe. / C'est pareil.","Très courant à l'oral pour dire que les deux options conviennent."],
+["Ma ei viitsi.","J'ai la flemme.","Le verbe « viitsima » (avoir l'envie de faire un effort) n'a pas d'équivalent exact en français."],
+["Mul on kõrini.","J'en ai ras le bol.","« Kõri » veut dire la gorge : on en a jusqu'à la gorge."],
+["Selge pilt.","Compris, c'est clair. (litt. « image claire »)","Réponse décontractée typique quand on a compris une explication."],
+["Täitsa lahe!","Trop cool !","« Lahe » (cool) est un des mots préférés des jeunes Estoniens."],
+["Pole paha!","Pas mal !","Un compliment à l'estonienne : sobre, mais sincère."],
+["Nii ja naa.","Comme ci comme ça.","Réponse honnête à « Kuidas läheb? » : les Estoniens n'exagèrent pas leur bonne humeur."],
+["Rahu, ainult rahu!","Du calme, rien que du calme !","Réplique culte de Karlsson sur le toit (Astrid Lindgren), connue de tous les Estoniens."],
+["Mis teha.","Que veux-tu, c'est comme ça.","Le haussement d'épaules estonien devant la pluie, le froid ou les impôts."],
+["Küll saab!","Ça va le faire !","Formule d'encouragement pleine d'optimisme tranquille."],
+["Jõudu tööle!","Bon courage pour le travail ! (litt. « de la force au travail »)","Se dit à quelqu'un qui travaille, même au caissier du supermarché."],
+["Head leili!","Bonne vapeur ! (au sauna)","« Leil », c'est la vapeur qui monte quand on verse de l'eau sur les pierres : on se le souhaite au sauna."],
+["Tervist!","Santé ! / Salut !","Sert à la fois à saluer, à trinquer et à dire « à tes souhaits »."],
+["Tšau!","Salut ! / Ciao !","Emprunté à l'italien, très utilisé entre amis pour dire bonjour et au revoir."],
+["Elagu Eesti!","Vive l'Estonie !","Se crie le 24 février, jour de l'indépendance, et lors des grands festivals de chant."],
+["Head jaanipäeva!","Bonne Saint-Jean !","Le 23 juin, nuit la plus courte : feux de camp, saucisses grillées et sauts au-dessus du feu."],
+["Kurat!","Bon sang ! (litt. « diable ! »)","Le juron national, à manier avec modération… mais tu l'entendras partout."],
+["Lepime kokku!","Marché conclu ! / On se met d'accord !","Pour fixer un rendez-vous ou conclure une discussion."],
+];
 // ---------- SRS (SM-2) ----------
 function sm2(c, q){
   // c: {n, ef, iv} ; q: 1 (raté) 3 (difficile) 4 (bien) 5 (facile)
@@ -481,13 +574,16 @@ function fmtIv(d){ return d <= 1 ? "1 j" : d < 30 ? d + " j" : d < 365 ? Math.ro
 
 // ---------- données ----------
 const ITEMS = [];
-THEMES.forEach(t => t.words.forEach(w => ITEMS.push({ id: t.id + "|" + w[0], theme: t.id, et: w[0], fr: w[1], pr: w[2] })));
+THEMES.forEach(t => t.words.forEach(w => ITEMS.push({ id: t.id + "|" + w[0], theme: t.id, et: w[0], fr: w[1], pr: w[2], level: 1 })));
 const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id, i]));
 const THEME_BY_ID = Object.fromEntries(THEMES.map(t => [t.id, t]));
 
 const KEY = "eesti.sonad.v1";
+// Nouveaux champs : toujours ajoutés avec une valeur par défaut dans merge(), jamais renommés.
 const DEFAULT = { cards:{}, intro:{}, streak:0, lastDay:null, reviews:{},
-  settings:{ size:10, newPerDay:10, dir:"mixed", mode:"flip", themes: THEMES.map(t => t.id) } };
+  xp:0, badges:{}, stats:{ sessions:0, perfect:0, typedOk:0, bestRun:0, bestStreak:0 },
+  settings:{ size:10, newPerDay:10, dir:"mixed", mode:"flip", themes: THEMES.map(t => t.id),
+    xp:true, confetti:true, sound:true, badges:true, phrase:true } };
 let S = load();
 function load(){
   try { const raw = localStorage.getItem(KEY); if (raw){ const s = JSON.parse(raw); return merge(s); } } catch(e){}
@@ -498,6 +594,11 @@ function merge(s){
   const out = Object.assign(d, s || {});
   out.settings = Object.assign(JSON.parse(JSON.stringify(DEFAULT.settings)), (s && s.settings) || {});
   out.cards = out.cards || {}; out.intro = out.intro || {}; out.reviews = out.reviews || {};
+  out.badges = (s && s.badges) || {};
+  out.stats = Object.assign(JSON.parse(JSON.stringify(DEFAULT.stats)), (s && s.stats) || {});
+  out.stats.bestStreak = Math.max(out.stats.bestStreak, out.streak || 0);
+  // progression d'avant les XP : 10 XP offerts par mot déjà vu
+  if (!s || typeof s.xp !== "number") out.xp = Object.keys(out.cards).length * 10;
   return out;
 }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
@@ -547,18 +648,175 @@ function check(input, target){
   if (bare(a) === bare(b)) return "meh";
   return "no";
 }
+const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// ---------- toasts ----------
+function toast(text){
+  const box = $("#toasts"); if (!box) return;
+  const t = h("div", {class:"toast"}, text); box.append(t);
+  setTimeout(() => t.remove(), 2600);
+}
+
+// ---------- sons (Web Audio, aucun fichier) ----------
+let AC = null;
+function sfx(kind){
+  if (!S.settings.sound) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    if (AC.state === "suspended") AC.resume();
+    const t0 = AC.currentTime + 0.01;
+    const notes = {
+      ok:   [[660,0,.10],[990,.08,.16]],
+      no:   [[240,0,.14],[170,.11,.22]],
+      tap:  [[880,0,.05]],
+      done: [[523,0,.12],[659,.11,.12],[784,.22,.12],[1047,.33,.32]],
+      level:[[392,0,.1],[523,.1,.1],[659,.2,.1],[784,.3,.1],[1047,.4,.4]],
+    }[kind] || [];
+    notes.forEach(([f, d, len]) => {
+      const o = AC.createOscillator(), g = AC.createGain();
+      o.type = kind === "no" ? "triangle" : "sine"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t0 + d);
+      g.gain.exponentialRampToValueAtTime(0.2, t0 + d + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + len);
+      o.connect(g); g.connect(AC.destination); o.start(t0 + d); o.stop(t0 + d + len + 0.03);
+    });
+  } catch(e){}
+}
+
+// ---------- confettis (canvas léger) ----------
+function confetti(){
+  if (!S.settings.confetti || reducedMotion()) return;
+  const cv = h("canvas", {class:"confetti", "aria-hidden":"true"}); document.body.append(cv);
+  const dpr = Math.min(2, window.devicePixelRatio || 1), W = innerWidth, H = innerHeight;
+  cv.width = W*dpr; cv.height = H*dpr;
+  const ctx = cv.getContext("2d"); ctx.scale(dpr, dpr);
+  const cs = getComputedStyle(document.documentElement);
+  const cols = ["--accent","--good","--warn","--bad"].map(v => cs.getPropertyValue(v).trim()).concat(["#F2C94C","#4A9FE8"]);
+  const P = Array.from({length:110}, () => ({ x: W/2 + (Math.random()-.5)*W*.4, y: H*.4, vx:(Math.random()-.5)*10, vy:-Math.random()*12-5,
+    r:Math.random()*6, vr:(Math.random()-.5)*.35, w:6+Math.random()*6, h:4+Math.random()*4, c:cols[Math.floor(Math.random()*cols.length)] }));
+  const t0 = performance.now(), LIFE = 2600;
+  (function step(now){
+    const el = now - t0; ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = Math.max(0, 1 - Math.max(0, el - LIFE*.6) / (LIFE*.4));
+    P.forEach(p => { p.vy += .3; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c; ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h); ctx.restore(); });
+    if (el < LIFE) requestAnimationFrame(step); else cv.remove();
+  })(t0);
+}
+
+// ---------- XP & niveaux ----------
+const LEVELS = [
+  [0, "Turist", "touriste"], [150, "Külaline", "invité"], [400, "Uustulnuk", "nouveau venu"],
+  [900, "Elanik", "habitant"], [1800, "Tallinlane", "Tallinnois"], [3500, "Eestlane", "Estonien"],
+  [6500, "Põliseestlane", "Estonien de souche"],
+];
+const XP_GRADE = { 1:2, 3:5, 4:10, 5:15 };
+function levelOf(xp){ let i = 0; while (i + 1 < LEVELS.length && xp >= LEVELS[i+1][0]) i++; return i; }
+function addXp(n){
+  // les XP s'accumulent toujours ; seul l'affichage dépend du réglage
+  const before = levelOf(S.xp); S.xp += n; const after = levelOf(S.xp);
+  if (after > before && S.settings.xp){ toast(`🎉 Niveau ${after+1} : ${LEVELS[after][1]} (${LEVELS[after][2]})`); setTimeout(() => sfx("level"), 350); }
+  return n;
+}
+function xpBlock(){
+  const i = levelOf(S.xp), lv = LEVELS[i], nx = LEVELS[i+1];
+  const pct = nx ? (S.xp - lv[0]) / (nx[0] - lv[0]) * 100 : 100;
+  return h("div", {class:"xp"},
+    h("div", {class:"xp-top"},
+      h("div", {class:"xp-lv"}, `Niv. ${i+1} · `, h("span", {lang:"et"}, lv[1]), " ", h("small", {}, `(${lv[2]})`)),
+      h("div", {class:"xp-n"}, nx ? `${S.xp} / ${nx[0]} XP` : `${S.xp} XP · max`)
+    ),
+    h("div", {class:"xpbar", role:"progressbar", "aria-valuemin":"0", "aria-valuemax":"100", "aria-valuenow":String(Math.round(pct)), "aria-label":"Progression vers le niveau suivant"}, h("i", {style:`width:${pct}%`})),
+    nx ? h("p", {class:"hint"}, `Prochain niveau : `, h("span", {lang:"et"}, nx[1]), ` (${nx[2]}) dans ${nx[0] - S.xp} XP`) : null
+  );
+}
+
+// ---------- badges ----------
+function seenCount(){ return Object.keys(S.cards).filter(id => BY_ID[id]).length; }
+function knownCount(){ return Object.entries(S.cards).filter(([id, c]) => BY_ID[id] && c.iv >= 21).length; }
+function themesDone(){ return THEMES.filter(t => { const ids = itemsOfTheme(t.id, 1); return ids.length && ids.every(i => S.cards[i.id]); }).length; }
+function itemsOfTheme(tid, maxLevel){ return ITEMS.filter(i => i.theme === tid && i.level <= maxLevel); }
+const BADGES = [
+  { id:"first",    i:"🌱", n:"Premiers pas",       d:"Terminer une première session",   p:() => [S.stats.sessions, 1] },
+  { id:"streak3",  i:"🔥", n:"Ça chauffe",         d:"3 jours d'affilée",               p:() => [S.stats.bestStreak, 3] },
+  { id:"streak7",  i:"📅", n:"Semaine de feu",     d:"7 jours d'affilée",               p:() => [S.stats.bestStreak, 7] },
+  { id:"streak30", i:"🏔️", n:"Sisu estonien",      d:"30 jours d'affilée",              p:() => [S.stats.bestStreak, 30] },
+  { id:"seen25",   i:"👀", n:"Curieux",            d:"25 mots vus",                     p:() => [seenCount(), 25] },
+  { id:"seen100",  i:"💯", n:"Centurion",          d:"100 mots vus",                    p:() => [seenCount(), 100] },
+  { id:"seen250",  i:"📚", n:"Dictionnaire ambulant", d:"250 mots vus",                 p:() => [seenCount(), 250] },
+  { id:"known50",  i:"🧠", n:"Mémoire d'éléphant", d:"50 mots maîtrisés",               p:() => [knownCount(), 50] },
+  { id:"theme1",   i:"🎯", n:"Thème bouclé",       d:"Voir tous les mots d'un thème",   p:() => [themesDone(), 1] },
+  { id:"themeAll", i:"🗺️", n:"Tour d'Estonie",     d:"Voir tous les mots de tous les thèmes de base", p:() => [themesDone(), THEMES.filter(t => itemsOfTheme(t.id, 1).length).length] },
+  { id:"typed50",  i:"⌨️", n:"Plume estonienne",   d:"50 réponses écrites exactes",     p:() => [S.stats.typedOk, 50] },
+  { id:"perfect",  i:"⭐", n:"Sans faute",         d:"Une session parfaite (5 cartes ou plus, aucun « Raté »)", p:() => [S.stats.perfect, 1] },
+  { id:"run10",    i:"⚡", n:"Sur une lancée",     d:"10 bonnes réponses d'affilée dans une session", p:() => [S.stats.bestRun, 10] },
+  { id:"lvl4",     i:"🏠", n:"Elanik",             d:"Atteindre le niveau 4 (habitant)", p:() => [levelOf(S.xp) + 1, 4] },
+  { id:"lvl7",     i:"👑", n:"Põliseestlane",      d:"Atteindre le niveau 7 (Estonien de souche)", p:() => [levelOf(S.xp) + 1, 7] },
+];
+function checkBadges(silent){
+  let got = 0;
+  BADGES.forEach(b => {
+    if (S.badges[b.id]) return;
+    const [cur, goal] = b.p();
+    if (cur >= goal){
+      S.badges[b.id] = today(); got++;
+      if (!silent && S.settings.badges) setTimeout(() => toast(`${b.i} Badge débloqué : ${b.n}`), 300 + got*400);
+    }
+  });
+  if (got){ save(); if (!silent && S.settings.badges) setTimeout(() => sfx("level"), 300); }
+}
+function renderBadges(){
+  const on = BADGES.filter(b => S.badges[b.id]).length;
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    h("h2", {}, `Badges · ${on} / ${BADGES.length}`),
+    h("p", {class:"hint"}, "Les badges grisés sont encore à débloquer. La barre montre où tu en es."),
+    h("div", {class:"badges"}, BADGES.map(b => {
+      const got = S.badges[b.id], [cur, goal] = b.p();
+      return h("div", {class:"badge" + (got ? "" : " off")},
+        h("div", {class:"bi", "aria-hidden":"true"}, b.i),
+        h("b", {}, b.n), h("span", {}, b.d),
+        got ? h("em", {}, "Débloqué ✓")
+            : h("div", {class:"bp", "aria-label":`${Math.min(cur, goal)} sur ${goal}`}, h("i", {style:`width:${Math.min(100, cur/goal*100)}%`}))
+      );
+    }))
+  );
+}
+
+// ---------- expression du jour ----------
+function phraseOfDay(){ return PHRASES[(today() * 17) % PHRASES.length]; }
+function phraseBlock(){
+  const [et, fr, ex] = phraseOfDay();
+  return h("div", {class:"phrase"},
+    h("span", {class:"k"}, "Expression du jour"),
+    h("div", {class:"e", lang:"et"}, et),
+    h("div", {class:"f"}, fr),
+    h("p", {}, ex),
+    h("button", {class:"say", "data-say":true, onclick:() => say(et)}, "🔊 Écouter")
+  );
+}
 
 // ---------- navigation ----------
 let view = "home";
-function go(v){ view = v; document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.v === v)); render(); window.scrollTo(0,0); }
-document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { session = null; go(b.dataset.v); }));
+const TABS = [["home","📚","Réviser"],["badges","🏅","Badges"],["lex","📖","Lexique"],["set","⚙️","Réglages"]];
+function tabOn(v){ return v !== "badges" || S.settings.badges; }
+function renderNav(){
+  const box = $("#nav .nav-in"); box.replaceChildren();
+  TABS.filter(([v]) => tabOn(v)).forEach(([v, ic, l]) => box.append(
+    h("button", {role:"tab", "aria-selected": String(view === v), onclick:() => { leave(); go(v); }}, h("span", {class:"ic", "aria-hidden":"true"}, ic), l)));
+}
+function go(v){ view = tabOn(v) ? v : "home"; render(); window.scrollTo(0,0); }
+function leave(){ session = null; }
 
 function render(){
   const main = $("#main"); main.replaceChildren();
   if (session) main.append(renderSession());
   else if (view === "home") main.append(renderHome());
+  else if (view === "badges") main.append(renderBadges());
   else if (view === "lex") main.append(renderLex());
   else main.append(renderSettings());
+  renderNav();
+  const chip = $("#lvChip"); chip.textContent = S.settings.xp ? `Niv. ${levelOf(S.xp)+1} · ${S.xp} XP` : "";
   pickVoice();
 }
 
@@ -577,11 +835,13 @@ function renderHome(){
     ),
     total ? h("button", {class:"cta", onclick:() => start(false)}, "Commencer")
           : h("button", {class:"cta", onclick:() => start(true)}, "Session bonus"),
+    S.settings.xp ? xpBlock() : null,
     h("div", {class:"stats"},
       h("div", {}, h("b", {}, String(learned)), h("span", {}, "vus")),
       h("div", {}, h("b", {}, String(known)), h("span", {}, "maîtrisés")),
       h("div", {}, h("b", {}, String(ITEMS.length)), h("span", {}, "au total"))
     ),
+    S.settings.phrase ? phraseBlock() : null,
     h("h2", {}, "Thèmes"),
     h("p", {class:"hint"}, "Décoche ce qui ne t'intéresse pas pour l'instant. Les nouveaux mots arrivent dans l'ordre de la liste."),
     h("div", {class:"themes"}, THEMES.map(t => {
@@ -630,7 +890,7 @@ function start(bonus){
   if (!q.length){ return; }
   // mélange léger : les nouvelles intercalées
   for (let i = q.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [q[i], q[j]] = [q[j], q[i]]; }
-  session = { queue:q, pos:0, total:q.length, revealed:false, typed:null, verdict:null, correct:0, seen:0 };
+  session = { queue:q, pos:0, total:q.length, revealed:false, typed:null, verdict:null, correct:0, seen:0, xp:0, run:0, bestRun:0, misses:0 };
   prepCard(); render();
 }
 function prepCard(){
@@ -649,7 +909,8 @@ function renderSession(){
   wrap.append(h("div", {class:"prog"},
     h("button", {class:"x", onclick:() => { session = null; render(); }}, "✕ Quitter"),
     h("div", {class:"bar"}, h("i", {style:`width:${s.pos/s.queue.length*100}%`})),
-    h("span", {}, `${Math.min(s.pos+1, s.queue.length)} / ${s.queue.length}`)
+    h("span", {}, `${Math.min(s.pos+1, s.queue.length)} / ${s.queue.length}`),
+    S.settings.xp ? h("span", {class:"sxp"}, `+${s.xp} XP`) : null
   ));
   const card = h("div", {class:"card"});
   card.append(h("div", {class:"card-top"},
@@ -694,7 +955,10 @@ function renderSession(){
 function submitTyped(){
   const s = session, cur = s.queue[s.pos], i = $("#ans");
   const v = i ? i.value : "";
-  s.typed = v.trim(); s.verdict = check(v, cur.item.et); s.revealed = true; render(); say(cur.item.et);
+  s.typed = v.trim(); s.verdict = check(v, cur.item.et); s.revealed = true;
+  if (s.verdict === "ok") S.stats.typedOk++;
+  sfx(s.verdict === "no" ? "no" : "ok");
+  render(); say(cur.item.et);
 }
 function grade(q){
   const s = session, cur = s.queue[s.pos], id = cur.item.id, t = today();
@@ -704,21 +968,42 @@ function grade(q){
   S.cards[id] = { ...next, due: t + next.iv, last: t };
   S.reviews[t] = (S.reviews[t] || 0) + 1;
   s.seen++; if (q >= 3) s.correct++;
+  // XP, séries, sons
+  const gain = XP_GRADE[q] * (s.verdict === "ok" ? 2 : 1);
+  s.xp += addXp(gain);
+  if (q >= 3){ s.run++; s.bestRun = Math.max(s.bestRun, s.run); } else { s.run = 0; s.misses++; }
+  S.stats.bestRun = Math.max(S.stats.bestRun, s.bestRun);
+  if (!s.verdict) sfx(q >= 3 ? "ok" : "no");
   if (q < 3 && !cur.again) s.queue.push({ item: cur.item, isNew: cur.isNew, again: true });
   // série
   if (S.lastDay !== t){ S.streak = (S.lastDay === t - 1) ? S.streak + 1 : 1; S.lastDay = t; }
+  S.stats.bestStreak = Math.max(S.stats.bestStreak, S.streak);
   // garde seulement 60 jours d'historique
   for (const k of Object.keys(S.intro)) if (+k < t - 60) delete S.intro[k];
   for (const k of Object.keys(S.reviews)) if (+k < t - 60) delete S.reviews[k];
+  s.pos++;
+  const finished = s.pos >= s.queue.length;
+  if (finished){
+    S.stats.sessions++;
+    if (s.misses === 0 && s.seen >= 5) S.stats.perfect++;
+  }
   save();
-  s.pos++; prepCard(); render();
+  prepCard(); render();
+  if (finished){ sfx("done"); confetti(); }
+  checkBadges();
 }
 function renderDone(){
   const s = session;
   const pct = s.seen ? Math.round(s.correct / s.seen * 100) : 0;
   return h("div", {class:"done"},
-    h("div", {class:"big"}, "Tubli!"),
+    h("div", {class:"big", lang:"et"}, s.misses === 0 && s.seen >= 5 ? "Suurepärane!" : "Tubli!"),
     h("p", {}, `Session terminée : ${s.total} cartes, ${pct} % de réponses réussies.`),
+    h("div", {class:"stats recap"},
+      S.settings.xp ? h("div", {}, h("b", {class:"xpv"}, `+${s.xp}`), h("span", {}, "XP gagnés")) : null,
+      h("div", {}, h("b", {}, String(s.bestRun)), h("span", {}, "meilleure série")),
+      h("div", {}, h("b", {}, `${pct} %`), h("span", {}, "réussite"))
+    ),
+    S.settings.xp ? xpBlock() : null,
     h("p", {}, `Série : ${S.streak} jour${S.streak > 1 ? "s" : ""} d'affilée.`),
     h("button", {class:"cta", onclick:() => { session = null; go("home"); }}, "Retour à l'accueil"),
     h("button", {class:"ghost", onclick:() => start(true)}, "Encore une session")
@@ -760,6 +1045,9 @@ function renderLex(){
 function seg(key, opts){
   return h("div", {class:"seg"}, opts.map(([v,l]) => h("button", {"aria-pressed": String(S.settings[key] === v), onclick:() => { S.settings[key] = v; save(); render(); }}, l)));
 }
+function onOff(key, label, hint){
+  return h("div", {class:"row"}, h("label", {}, label, hint ? h("small", {}, hint) : null), seg(key, [[true,"Oui"],[false,"Non"]]));
+}
 function renderSettings(){
   const exp = h("textarea", {id:"exportBox", readonly:true, hidden:true});
   const imp = h("textarea", {id:"importBox", placeholder:"Colle ici une sauvegarde…"});
@@ -776,6 +1064,14 @@ function renderSettings(){
       h("div", {class:"row"}, h("label", {}, "Nouveaux mots / jour", h("small", {}, "10 suffit pour tenir sans saturer")), seg("newPerDay", [[5,"5"],[10,"10"],[20,"20"]])),
       h("div", {class:"row"}, h("label", {}, "Sens"), seg("dir", [["et","ET→FR"],["fr","FR→ET"],["mixed","Mixte"]])),
       h("div", {class:"row"}, h("label", {}, "Réponse", h("small", {}, "« Écrire » s'applique quand tu dois trouver le mot estonien")), seg("mode", [["flip","Retourner"],["type","Écrire"]]))
+    ),
+    h("h2", {}, "Fonctionnalités"),
+    h("div", {class:"set"},
+      onOff("xp", "XP et niveaux", "Barre d'XP sur l'accueil, titres estoniens"),
+      onOff("badges", "Badges", "Onglet Badges et notifications de déblocage"),
+      onOff("phrase", "Expression du jour", "Sur l'accueil"),
+      onOff("confetti", "Confettis", "En fin de session"),
+      onOff("sound", "Sons", "Petits bips de réussite et d'échec")
     ),
     h("h2", {}, "Son"),
     h("div", {class:"box"},
@@ -807,6 +1103,7 @@ function renderSettings(){
   );
 }
 
+checkBadges(true);
 render();
 </script>
 <script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});</script>
