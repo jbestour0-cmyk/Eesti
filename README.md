@@ -1,6 +1,6 @@
 # Eesti sõnad
 
-Flashcards d'estonien (PWA hors-ligne). Ouvrir https://jbestour0-cmyk.github.io/eesti/ puis « Ajouter à l'écran d'accueil ».
+Flashcards d'estonien (PWA hors-ligne). Ouvrir https://jbestour0-cmyk.github.io/Eesti/ (attention au E majuscule) puis « Ajouter à l'écran d'accueil ».
 
 Tout tient dans `index.html` (HTML/CSS/JS sans dépendance ni build) ; `sw.js` met l'appli en cache pour le hors-ligne.
 
