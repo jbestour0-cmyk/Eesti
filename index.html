@@ -118,6 +118,7 @@ details.guide summary{font-weight:700;cursor:pointer}
 .grades button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;font-size:15px}
 .grades small{font-weight:400;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
 .grades .g1{color:var(--bad)}.grades .g3{color:var(--warn)}.grades .g4{color:var(--good)}.grades .g5{color:var(--accent)}
+.grades button:disabled{opacity:.35;cursor:default}
 .grades .sug{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor}
 .done{text-align:center;padding:30px 10px;display:flex;flex-direction:column;gap:12px;align-items:center}
 .done .big{font-family:var(--f-display);font-weight:800;font-size:44px;letter-spacing:-.03em;line-height:1}
@@ -136,6 +137,12 @@ details.guide summary{font-weight:700;cursor:pointer}
 .lex .w b{overflow-wrap:anywhere}
 .lex .w span{font-size:14px;color:var(--ink-2)}
 .lex .w em{font-style:normal;font-size:13px;color:var(--accent)}
+.lex .lv{font-size:11px;font-weight:700;color:var(--warn);letter-spacing:.04em}
+.lex .vf{font-size:12px;color:var(--warn)}
+.theme.locked{opacity:.7}
+.theme .lock{width:22px;text-align:center;font-size:17px}
+.lvl{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.lvl b{font-size:15px}
 .lex li button{border:0;background:transparent;font-size:18px;padding:6px;color:var(--ink-3)}
 
 /* réglages */
@@ -143,6 +150,8 @@ details.guide summary{font-weight:700;cursor:pointer}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line)}
 .row:last-child{border-bottom:0}
 .row label{font-weight:700}
+.row.off label{color:var(--ink-3)}
+.seg button:disabled{opacity:.5;cursor:default}
 .row small{display:block;font-weight:400;color:var(--ink-3);font-size:13px}
 .seg{display:flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
 .seg button{border:0;background:transparent;border-radius:8px;padding:6px 10px;font-size:14px;font-weight:700;color:var(--ink-2)}
@@ -254,6 +263,13 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);background:v
 .tbar.low i{background:var(--bad)}
 .fb{min-height:1.5em;margin:0;font-size:15px;font-weight:700;text-align:center}
 .fb.ok{color:var(--good)}.fb.no{color:var(--bad)}
+.slots{min-height:64px;border:1.5px dashed var(--line);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.slots.ok{border-color:var(--good);background:var(--good-soft)}
+.slots.no{border-color:var(--bad);background:var(--bad-soft)}
+.toks{display:flex;flex-wrap:wrap;gap:8px}
+.tok{border:1.5px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 14px;font-family:var(--f-display);font-weight:700;font-size:18px;min-height:46px}
+.tok.on{background:var(--surface);border-color:var(--accent)}
+.toks .tok:disabled{opacity:.25}
 .pick{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
 .pick button{border:0;border-bottom:1px solid var(--line);background:transparent;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;text-align:left;font-weight:700}
 .pick button:last-child{border-bottom:0}
@@ -274,7 +290,7 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);background:v
 <nav class="nav" id="nav" aria-label="Navigation"><div class="nav-in" role="tablist"></div></nav>
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <script>
-// Vocabulaire : [estonien, français, prononciation, exemple ET?, exemple FR?, verify?]
+// Vocabulaire : [estonien, français, prononciation, verify?] (verify = tournure à faire valider)
 // Prononciation pour francophone : MAJUSCULES = syllabe accentuée (toujours la 1re en estonien).
 const THEMES = [
 { id:"base", name:"Bases & politesse", et:"Põhitõed", words:[
@@ -563,6 +579,275 @@ const THEMES = [
 ["Mis kell on?","Quelle heure est-il ?","MIS KÈLL on"],
 ["kell kolm","à trois heures","KÈLL KOLM"],
 ]},
+{ id:"conv", name:"Conversation", et:"Vestlus", words:[] },
+];
+
+// ---------- Niveau 2 (intermédiaire) ----------
+// Débloqué quand 70 % du niveau 1 est vu. Même format, 4e champ optionnel "verify" = tournure à faire valider.
+const LEVEL2 = [
+{ theme:"base", level:2, words:[
+["Väga meeldiv!","Très heureux de vous rencontrer !","VÈ-ga MÉÉL-div"],
+["Vabandust, et hilinesin.","Désolé pour le retard.","VA-ban-doust, ét HI-li-né-sin"],
+["Pole tänu väärt.","Il n'y a pas de quoi.","PO-lé TÈ-nou VÈÈRT"],
+["Kõike head!","Bonne continuation !","KEUÏ-ké HÉ-ad"],
+["Näeme homme!","À demain !","NÈ-é-mé HOM-mé"],
+["Näeme hiljem!","À plus tard !","NÈ-é-mé HIL-yèm"],
+["Kuidas teil läheb?","Comment allez-vous ?","KOUÏ-das TEÏL LÈ-hèb"],
+["Mul läheb hästi, aga sul?","Je vais bien, et toi ?","MOUL LÈ-hèb HÈS-ti, A-ga SOUL"],
+["Kas te saaksite mind aidata?","Pourriez-vous m'aider ?","kas té SAAK-si-té MINT AÏ-da-ta"],
+["Ma ei ole kindel.","Je ne suis pas sûr.","ma eï O-lé KIN-dèl"],
+["Ma olen nõus.","Je suis d'accord.","ma O-lèn NEUOUS"],
+["Ma ei ole nõus.","Je ne suis pas d'accord.","ma eï O-lé NEUOUS"],
+["Kas te võiksite seda korrata?","Pourriez-vous répéter ?","kas té VEUÏK-si-té SÉ-da KOR-ra-ta"],
+["Kuidas seda kirjutatakse?","Comment ça s'écrit ?","KOUÏ-das SÉ-da KIR-you-ta-tak-sé"],
+["Ma õpin eesti keelt.","J'apprends l'estonien.","ma EU-pin ÉÉS-ti KÉÉLT"],
+["Ma elan Tallinnas.","J'habite à Tallinn.","ma É-lan TAL-lin-nas"],
+]},
+{ theme:"num", level:2, words:[
+["kakskümmend üks","vingt et un (21)","KAKS-kum-mént UKS"],
+["kolmkümmend","trente (30)","KOLM-kum-mént"],
+["viiskümmend","cinquante (50)","VIIS-kum-mént"],
+["kakssada","deux cents (200)","KAKS-sa-da"],
+["miljon","million","MIL-yon"],
+["pool","moitié / demi","POOL"],
+["veerand","quart","VÉÉ-rant"],
+["esimene","premier","É-si-mé-né"],
+["teine","deuxième / autre","TEÏ-né"],
+["kolmas","troisième","KOL-mas"],
+["Kui palju see kokku maksab?","Ça fait combien en tout ?","kouï PAL-you SÉÉ KOK-kou MAK-sab"],
+["Kas see on soodushinnaga?","C'est en promotion ?","kas SÉÉ on SOO-dous-hin-na-ga","« soodushind » = prix réduit ; vérifier que la tournure est naturelle en magasin"],
+["Ma maksan sularahas.","Je paie en espèces.","ma MAK-san SOU-la-ra-has"],
+["Kas ma saaksin tšeki?","Je peux avoir le ticket de caisse ?","kas ma SAAK-sin TCHÉ-ki"],
+["Kas teil on peenraha?","Vous avez de la petite monnaie ?","kas TEÏL on PÉÉN-ra-ha"],
+["Kas hind sisaldab käibemaksu?","Le prix inclut la TVA ?","kas HINT SI-sal-dab KÈÏ-bé-mak-sou"],
+]},
+{ theme:"food", level:2, words:[
+["Laud kahele, palun.","Une table pour deux, s'il vous plaît.","LAOUD KA-hé-lé, PA-loun"],
+["Mida te soovitate?","Que recommandez-vous ?","MI-da té SOO-vi-ta-té"],
+["Ma olen taimetoitlane.","Je suis végétarien.","ma O-lèn TAÏ-mé-toït-la-né"],
+["Ma ei söö liha.","Je ne mange pas de viande.","ma eï SEUU LI-ha"],
+["Kas see on vürtsikas?","C'est épicé ?","kas SÉÉ on VURT-si-kas"],
+["Kas siin on vaba?","C'est libre ici ?","kas SIIN on VA-ba"],
+["Väga maitsev!","Délicieux !","VÈ-ga MAÏT-sèv"],
+["Mul on kõht tühi.","J'ai faim.","MOUL on KEUHT TU-hi"],
+["Kõht on täis.","J'ai bien mangé. (le ventre est plein)","KEUHT on TÈÏS"],
+["Mul on janu.","J'ai soif.","MOUL on YA-nou"],
+["hommikusöök","petit-déjeuner","HOM-mi-kou-seuuk"],
+["lõunasöök","déjeuner","LEUOU-na-seuuk"],
+["õhtusöök","dîner","EUH-tou-seuuk"],
+["kohupiim","fromage blanc (caillé)","KO-hou-piim"],
+["hapukapsas","choucroute","HA-pou-kap-sas"],
+["verivorst","boudin noir (plat de Noël)","VÉ-ri-vorst"],
+["kama","kama (farine de céréales grillées)","KA-ma"],
+["Kas te saaksite selle kaasa pakkida?","Vous pouvez l'emballer à emporter ?","kas té SAAK-si-té SEL-lé KAA-sa PAK-ki-da"],
+["Kas see on värske?","C'est frais ?","kas SÉÉ on VÈRS-ké"],
+]},
+{ theme:"move", level:2, words:[
+["Kust ma saan pileti osta?","Où est-ce que je peux acheter un billet ?","KOUST ma SAAN PI-lè-ti OS-ta"],
+["Mis kell järgmine buss läheb?","À quelle heure part le prochain bus ?","MIS KÈLL YÈRG-mi-né BOUSS LÈ-hèb"],
+["Kas see buss läheb kesklinna?","Ce bus va au centre-ville ?","kas SÉÉ BOUSS LÈ-hèb KÉSK-lin-na"],
+["Ma pean ümber istuma.","Je dois changer (de ligne).","ma PÉ-an UM-bèr IS-tou-ma"],
+["Ma eksisin ära.","Je me suis perdu.","ma ÉK-si-sin È-ra"],
+["sõiduplaan","horaire (des transports)","SEUÏ-dou-plaan"],
+["jalgratas","vélo","YALG-ra-tas"],
+["tõukeratas","trottinette","TEUOU-ké-ra-tas"],
+["Ristmikul pööra paremale.","Au carrefour, tourne à droite.","RIST-mi-koul PEUU-ra PA-ré-ma-lé"],
+["Mine otse edasi.","Continue tout droit.","MI-né OT-sé É-da-si"],
+["Kui kaua sõit kestab?","Combien de temps dure le trajet ?","kouï KAOU-a SEUÏT KÈS-tab"],
+["Ma lähen järgmises peatuses maha.","Je descends au prochain arrêt.","ma LÈ-hèn YÈRG-mi-sès PÉ-a-tou-sès MA-ha"],
+["piletikontroll","contrôle des billets","PI-lè-ti-kon-troll"],
+["trahv","amende","TRAHV"],
+["Kas see koht on vaba?","Cette place est libre ?","kas SÉÉ KOHT on VA-ba"],
+["rongijaam","gare (ferroviaire)","RON-gui-yaam"],
+["lennuk","avion","LÉN-nouk"],
+["laev","bateau / ferry","LAÏV"],
+]},
+{ theme:"work", level:2, words:[
+["Mul on täna palju tööd.","J'ai beaucoup de travail aujourd'hui.","MOUL on TÈ-na PAL-you TEUUD"],
+["Ma töötan kodus.","Je travaille de chez moi.","ma TEUU-tan KO-dous"],
+["kaugtöö","télétravail","KAOUG-teuu"],
+["Kas me saame koosoleku edasi lükata?","On peut reporter la réunion ?","kas mé SAA-mé KOO-so-lé-kou É-da-si LU-ka-ta"],
+["Ma saadan selle hiljem.","Je l'envoie plus tard.","ma SAA-dan SEL-lé HIL-yèm"],
+["Kas sa said mu e-kirja kätte?","Tu as bien reçu mon e-mail ?","kas sa SAÏD mou É-kir-ya KÈT-té"],
+["eelarve","budget","ÉÉ-lar-vé"],
+["aruanne","rapport","A-rou-an-né"],
+["läbirääkimised","négociations","LÈ-bi-rèè-ki-mi-sèd"],
+["tööintervjuu","entretien d'embauche","TEUU-in-tèr-vyouu"],
+["Ma olen haiguslehel.","Je suis en arrêt maladie.","ma O-lèn HAÏ-gous-lé-hèl"],
+["Ta on puhkusel.","Il est en congé. / Elle est en congé.","ta on POUH-kou-sèl"],
+["Palun saada see mulle.","Envoie-le-moi, s'il te plaît.","PA-loun SAA-da SÉÉ MOUL-lé"],
+["Lepime aja kokku.","Fixons un rendez-vous.","LÉ-pi-mé A-ya KOK-kou"],
+["Tähtaeg on reedel.","La date limite, c'est vendredi.","TÈH-taïg on RÉÉ-dèl"],
+["Ma olen hõivatud.","Je suis occupé.","ma O-lèn HEUÏ-va-toud"],
+]},
+{ theme:"admin", level:2, words:[
+["elamisluba","titre de séjour","É-la-mis-lou-ba"],
+["rahvastikuregister","registre de la population","RAH-vas-ti-kou-ré-guis-tèr"],
+["digiallkiri","signature numérique","DI-gui-all-ki-ri"],
+["Kas ma saan selle digiallkirjastada?","Je peux signer ça numériquement ?","kas ma SAAN SEL-lé DI-gui-all-kir-yas-ta-da"],
+["tagatisraha","dépôt de garantie (caution)","TA-ga-tis-ra-ha"],
+["Kraan lekib.","Le robinet fuit.","KRAAN LÉ-kib"],
+["Küte ei tööta.","Le chauffage ne marche pas.","KU-té eï TEUU-ta"],
+["korteriühistu","copropriété (association des propriétaires)","KOR-té-ri-u-his-tou"],
+["volikiri","procuration","VO-li-ki-ri"],
+["Kuhu ma pean alla kirjutama?","Où dois-je signer ?","KOU-hou ma PÉ-an AL-la KIR-you-ta-ma"],
+["järjekord","file d'attente","YÈR-yé-kord"],
+["Ma tahaksin aja kinni panna.","Je voudrais prendre rendez-vous.","ma TA-hak-sin A-ya KIN-ni PAN-na","« aega/aja kinni panema » = réserver un créneau ; vérifier la forme la plus courante"],
+["Milliseid pabereid on vaja?","Quels papiers faut-il ?","MIL-li-seïd PA-bé-reïd on VA-ya"],
+["üürikuulutus","annonce de location","UU-ri-kouou-lou-tous"],
+["postkast","boîte aux lettres","POST-kast"],
+["Ma kolin uude korterisse.","Je déménage dans un nouvel appartement.","ma KO-lin OUOU-dé KOR-té-ris-sé"],
+]},
+{ theme:"road", level:2, words:[
+["Mul on Prantsuse juhiluba.","J'ai un permis de conduire français.","MOUL on PRANT-sou-sé YOU-hi-lou-ba"],
+["Ma tahan juhiluba vahetada.","Je veux échanger mon permis.","ma TA-han YOU-hi-lou-ba VA-hé-ta-da"],
+["Transpordiamet","Agence des transports (permis, examens)","TRANS-por-di-a-mèt"],
+["sõidueksam","examen de conduite","SEUÏ-dou-èk-sam"],
+["peatee","route prioritaire","PÉ-a-téé"],
+["kõrvaltee","route secondaire","KEUR-val-téé"],
+["parema käe reegel","priorité à droite","PA-ré-ma KÈ-é RÉÉ-guèl","terme courant dans les auto-écoles ? à confirmer"],
+["Peatu!","Arrête-toi !","PÉ-a-tou"],
+["Aeglasemalt!","Plus lentement !","AÏ-gla-sé-malt"],
+["tagurdama","faire marche arrière","TA-gour-da-ma"],
+["parkima","se garer","PAR-ki-ma"],
+["Kas siin tohib parkida?","On a le droit de se garer ici ?","kas SIIN TO-hib PAR-ki-da"],
+["helkur","réflecteur (obligatoire pour les piétons la nuit)","HÈL-kour"],
+["suunatuli","clignotant","SOUOU-na-tou-li"],
+["Lülita suunatuli sisse.","Mets ton clignotant.","LU-li-ta SOUOU-na-tou-li SIS-sé"],
+["kiiruskaamera","radar (caméra de vitesse)","KII-rous-kaa-mé-ra"],
+]},
+{ theme:"gym", level:2, words:[
+["Mitu kordust?","Combien de répétitions ?","MI-tou KOR-doust"],
+["kolm seeriat","trois séries","KOLM SÉÉ-ri-at"],
+["soojendus","échauffement","SOO-yèn-dous"],
+["venitus","étirement","VÉ-ni-tous"],
+["lihas","muscle","LI-has"],
+["Mul on lihased valusad.","J'ai des courbatures.","MOUL on LI-ha-sèd VA-lou-sad"],
+["Hoia lõug all!","Garde le menton baissé !","HOÏ-a LEUOUG ALL","consigne de coach : « lõug all » ou « lõug alla » ? à confirmer"],
+["Liigu!","Bouge !","LII-gou"],
+["Veel kümme sekundit!","Encore dix secondes !","VÉÉL KUM-mé SÉ-koun-dit"],
+["Ma olen täiesti läbi.","Je suis complètement crevé.","ma O-lèn TÈ-ès-ti LÈ-bi"],
+["Kui tihti sa trennis käid?","Tu vas à l'entraînement tous les combien ?","kouï TIH-ti sa TRÈN-nis KÈÏD"],
+["kõhulihased","abdos","KEU-hou-li-ha-sèd"],
+["kätekõverdused","pompes","KÈ-té-keu-vèr-dou-sèd"],
+["konks","crochet (boxe)","KONKS","nom du coup en boxe estonienne à confirmer"],
+["sparring","sparring (combat d'entraînement)","SPAR-ring"],
+["Ma tahan jõudu juurde saada.","Je veux prendre de la force.","ma TA-han YEUOU-dou YOUOUR-dé SAA-da"],
+]},
+{ theme:"weather", level:2, words:[
+["Täna on pilvine.","Aujourd'hui, c'est nuageux.","TÈ-na on PIL-vi-né"],
+["Homme on päikeseline.","Demain, il fera soleil.","HOM-mé on PÈÏ-ké-sé-li-né"],
+["udu","brouillard","OU-dou"],
+["äike","orage","ÈÏ-ké"],
+["lörts","neige fondue","LEURTS"],
+["kiilasjää","verglas","KII-las-yèè"],
+["tuisk","tempête de neige","TOUÏSK"],
+["ilmateade","bulletin météo","IL-ma-té-a-dé"],
+["Pane end soojalt riidesse!","Habille-toi chaudement !","PA-né ÉNT SOO-yalt RII-dès-sé"],
+["Mul on külm.","J'ai froid.","MOUL on KULM"],
+["Mul on palav.","J'ai chaud.","MOUL on PA-lav"],
+["valged ööd","nuits blanches (de juin)","VAL-guèd EUUD"],
+["Väljas on viis kraadi sooja.","Il fait plus cinq degrés dehors.","VÈL-yas on VIIS KRAA-di SOO-ya"],
+["Ilm läheb külmemaks.","Il va faire plus froid.","ILM LÈ-hèb KUL-mé-maks"],
+["vihmavari","parapluie","VIH-ma-va-ri"],
+]},
+{ theme:"health", level:2, words:[
+["Mul on kurk valus.","J'ai mal à la gorge.","MOUL on KOURK VA-lous"],
+["Mul on köha.","Je tousse.","MOUL on KEU-ha"],
+["nohu","rhume (nez qui coule)","NO-hou"],
+["Mul on kõht valus.","J'ai mal au ventre.","MOUL on KEUHT VA-lous"],
+["Ma tunnen end halvasti.","Je ne me sens pas bien.","ma TOUN-nèn ÉNT HAL-vas-ti"],
+["Ma sooviksin perearsti vastuvõtule.","Je voudrais une consultation chez le médecin traitant.","ma SOO-vik-sin PÉ-ré-ars-ti VAS-tou-veu-tou-lé"],
+["valuvaigisti","antidouleur","VA-lou-vaï-guis-ti"],
+["hambaarst","dentiste","HAM-baarst"],
+["Kus valutab?","Où avez-vous mal ?","KOUS VA-lou-tab"],
+["Mul on pähkliallergia.","Je suis allergique aux noix.","MOUL on PÈHK-li-al-lèr-gui-a","composé à confirmer (ou « Mul on allergia pähklite vastu »)"],
+["kindlustus","assurance","KINT-lous-tous"],
+["Ma vajan arsti.","J'ai besoin d'un médecin.","ma VA-yan ARS-ti"],
+["Ma kukkusin.","Je suis tombé.","ma KOUK-kou-sin"],
+["Mu jalg on paistes.","Ma jambe est enflée. / Mon pied est enflé.","mou YALG on PAÏS-tès"],
+["Kas see on tõsine?","C'est grave ?","kas SÉÉ on TEU-si-né"],
+["haigusleht","arrêt maladie (certificat)","HAÏ-gous-léht"],
+]},
+{ theme:"time", level:2, words:[
+["üleeile","avant-hier","U-lé-eï-lé"],
+["ülehomme","après-demain","U-lé-hom-mé"],
+["eelmisel nädalal","la semaine dernière","ÉÉL-mi-sèl NÈ-da-lal"],
+["järgmisel nädalal","la semaine prochaine","YÈRG-mi-sèl NÈ-da-lal"],
+["pool kolm","deux heures et demie (2 h 30)","POOL KOLM"],
+["veerand neli","trois heures et quart (3 h 15)","VÉÉ-rant NÉ-li"],
+["kolmveerand viis","cinq heures moins le quart (4 h 45)","KOLM-véé-rant VIIS"],
+["keskpäev","midi","KÉSK-pèèv"],
+["kesköö","minuit","KÉSK-euu"],
+["nädalavahetus","week-end","NÈ-da-la-va-hé-tous"],
+["Mis kuupäev täna on?","On est le combien aujourd'hui ?","MIS KOUOU-pèèv TÈ-na on"],
+["varsti","bientôt","VARS-ti"],
+["alati","toujours","A-la-ti"],
+["mitte kunagi","jamais","MIT-té KOU-na-gui"],
+["mõnikord","parfois","MEU-ni-kord"],
+["jaanuar","janvier","YAA-nou-ar"],
+["juuni","juin","YOUOU-ni"],
+]},
+{ theme:"conv", level:2, words:[
+["Kust sa pärit oled?","D'où viens-tu ?","KOUST sa PÈ-rit O-lèd"],
+["Ma olen pärit Prantsusmaalt.","Je suis originaire de France.","ma O-lèn PÈ-rit PRANT-sous-maalt"],
+["Kui kaua sa oled Eestis elanud?","Depuis combien de temps vis-tu en Estonie ?","kouï KAOU-a sa O-lèd ÉÉS-tis É-la-noud"],
+["Millega sa tegeled?","Tu fais quoi dans la vie ?","MIL-lé-ga sa TÉ-gué-lèd"],
+["Kus sa töötad?","Où travailles-tu ?","KOUS sa TEUU-tad"],
+["Ma töötan IT-firmas.","Je travaille dans une boîte informatique.","ma TEUU-tan I-té-fir-mas"],
+["Mulle meeldib Tallinn.","J'aime Tallinn.","MOUL-lé MÉÉL-dib TAL-linn"],
+["Mulle ei meeldi see.","Ça ne me plaît pas.","MOUL-lé eï MÉÉL-di SÉÉ"],
+["Mida sulle meeldib teha?","Qu'est-ce que tu aimes faire ?","MI-da SOUL-lé MÉÉL-dib TÉ-ha"],
+["Mulle meeldib poksida.","J'aime boxer.","MOUL-lé MÉÉL-dib POK-si-da"],
+["Mis su hobid on?","Quels sont tes loisirs ?","MIS sou HO-bid on"],
+["Mul on hea meel sind näha.","Content de te voir.","MOUL on HÉ-a MÉÉL SINT NÈ-ha"],
+["Kas sul on nädalavahetuseks plaane?","Tu as des projets pour le week-end ?","kas SOUL on NÈ-da-la-va-hé-tou-séks PLAA-né"],
+["Kuidas nädalavahetus läks?","Comment s'est passé ton week-end ?","KOUÏ-das NÈ-da-la-va-hé-tous LÈKS"],
+["Lähme välja!","On sort !","LÈH-mé VÈL-ya"],
+["Kas sa tuled ka?","Tu viens aussi ?","kas sa TOU-lèd KA"],
+["Mul pole aega.","Je n'ai pas le temps.","MOUL PO-lé AÏ-ga"],
+["Võib-olla järgmine kord.","Peut-être la prochaine fois.","VEUÏB-ol-la YÈRG-mi-né KORD"],
+["Kohtume kell kuus.","On se retrouve à six heures.","KOH-tou-mé KÈLL KOUOUS"],
+["Ma hilinen natuke.","Je vais être un peu en retard.","ma HI-li-nèn NA-tou-ké"],
+["Ma ootan sind.","Je t'attends.","ma OO-tan SINT"],
+["Ma tulen kohe.","J'arrive tout de suite.","ma TOU-lèn KO-hé"],
+["Ma pean nüüd minema.","Je dois y aller maintenant.","ma PÉ-an NUUD MI-né-ma"],
+["Mul oli väga tore.","J'ai passé un très bon moment.","MOUL O-li VÈ-ga TO-ré"],
+["Aitäh kutse eest!","Merci pour l'invitation !","AÏ-tèh KOUT-sé ÉÉST"],
+["Sa oled väga lahke.","C'est très gentil de ta part.","sa O-lèd VÈ-ga LAH-ké"],
+["See on tõesti huvitav.","C'est vraiment intéressant.","SÉÉ on TEU-ès-ti HOU-vi-tav"],
+["Tõesti?","Vraiment ?","TEU-ès-ti"],
+["Mis juhtus?","Qu'est-ce qui s'est passé ?","MIS YOUH-tous"],
+["Mis uudist?","Quoi de neuf ?","MIS OUOU-dist"],
+["Pole hullu.","Pas grave.","PO-lé HOUL-lou"],
+["Ma arvan, et sul on õigus.","Je pense que tu as raison.","ma AR-van, ét SOUL on EUÏ-gous"],
+["Ma ei usu.","Je ne crois pas.","ma eï OU-sou"],
+["Mida sa sellest arvad?","Qu'est-ce que tu en penses ?","MI-da sa SEL-lèst AR-vad"],
+["Ma mõtlen selle üle järele.","Je vais y réfléchir.","ma MEUT-lèn SEL-lé U-lé YÈ-ré-lé"],
+["Kas sa oled kindel?","Tu es sûr ?","kas sa O-lèd KIN-dèl"],
+["Täitsa nõus!","Tout à fait d'accord !","TÈÏT-sa NEUOUS"],
+["Mis keeli sa räägid?","Quelles langues parles-tu ?","MIS KÉÉ-li sa RÈÈ-guid"],
+["Mu eesti keel ei ole veel hea.","Mon estonien n'est pas encore bon.","mou ÉÉS-ti KÉÉL eï O-lé VÉÉL HÉ-a"],
+["Sa räägid väga hästi eesti keelt!","Tu parles très bien estonien !","sa RÈÈ-guid VÈ-ga HÈS-ti ÉÉS-ti KÉÉLT"],
+["Kas sa võiksid aeglasemalt rääkida?","Tu pourrais parler plus lentement ?","kas sa VEUÏK-sid AÏ-gla-sé-malt RÈÈ-ki-da"],
+["Kas me võime sinatada?","On peut se tutoyer ?","kas mé VEUÏ-mé SI-na-ta-da"],
+["Räägi mulle endast!","Parle-moi de toi !","RÈÈ-gui MOUL-lé ÉN-dast"],
+["Kas sul on lapsi?","Tu as des enfants ?","kas SOUL on LAP-si"],
+["Mul on vend ja õde.","J'ai un frère et une sœur.","MOUL on VÈNT ya EU-dé"],
+["Ma olen abielus.","Je suis marié.","ma O-lèn A-bi-é-lous"],
+["elukaaslane","compagnon / compagne","É-lou-kaas-la-né"],
+["Kas me oleme varem kohtunud?","On s'est déjà rencontrés ?","kas mé O-lé-mé VA-rèm KOH-tou-noud"],
+["Anna andeks!","Pardonne-moi !","AN-na AN-dèks"],
+["Hoia end!","Prends soin de toi !","HOÏ-a ÉNT"],
+["Kirjuta mulle!","Écris-moi !","KIR-you-ta MOUL-lé"],
+["Mis su number on?","C'est quoi ton numéro ?","MIS sou NOUM-bèr on"],
+["Ilus ilm täna, eks?","Il fait beau aujourd'hui, hein ?","I-lous ILM TÈ-na, ÉKS"],
+["Kas sa oled kunagi Saaremaal käinud?","Tu es déjà allé à Saaremaa ?","kas sa O-lèd KOU-na-gui SAA-ré-maal KÈÏ-noud"],
+["Ma igatsen kodu.","Ma maison me manque.","ma I-gat-sèn KO-dou"],
+["Õnn kaasa!","Bonne chance !","EUNN KAA-sa"],
+["Head reisi!","Bon voyage !","HÉ-ad REÏ-si"],
+["Pole veel otsustanud.","Je n'ai pas encore décidé.","PO-lé VÉÉL OT-sous-ta-noud"],
+]},
 ];
 
 // Expression du jour : [estonien, traduction, explication culturelle]
@@ -643,17 +928,21 @@ function fmtIv(d){ return d <= 1 ? "1 j" : d < 30 ? d + " j" : d < 365 ? Math.ro
 // ---------- données ----------
 const ITEMS = [];
 THEMES.forEach(t => t.words.forEach(w => ITEMS.push({ id: t.id + "|" + w[0], theme: t.id, et: w[0], fr: w[1], pr: w[2], level: 1 })));
+LEVEL2.forEach(b => b.words.forEach(w => ITEMS.push({ id: b.theme + "|" + w[0], theme: b.theme, et: w[0], fr: w[1], pr: w[2], level: b.level, verify: w[3] || null })));
 const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id, i]));
 const THEME_BY_ID = Object.fromEntries(THEMES.map(t => [t.id, t]));
 
 const KEY = "eesti.sonad.v1";
 // Nouveaux champs : toujours ajoutés avec une valeur par défaut dans merge(), jamais renommés.
 const DEFAULT = { cards:{}, intro:{}, streak:0, lastDay:null, reviews:{},
-  xp:0, badges:{}, stats:{ sessions:0, perfect:0, typedOk:0, bestRun:0, bestStreak:0 },
-  games:{ pairs:{}, tf:0 },
+  xp:0, badges:{}, stats:{ sessions:0, perfect:0, typedOk:0, bestRun:0, bestStreak:0, expertSessions:0, orderOk:0, dicteePerfect:0 },
+  games:{ pairs:{}, tf:0, dictee:0, order:0 },
   settings:{ size:10, newPerDay:10, dir:"mixed", mode:"flip", themes: THEMES.map(t => t.id),
     xp:true, confetti:true, sound:true, badges:true, phrase:true,
-    flip:true, colors:true, gPairs:true, gTf:true } };
+    flip:true, colors:true, gPairs:true, gTf:true, gDictee:true, gOrder:true, expert:false,
+    knownThemes: THEMES.map(t => t.id) } };
+// thèmes présents avant l'ajout de knownThemes : un thème inconnu d'une sauvegarde est ajouté et coché
+const ORIGINAL_THEMES = ["base","num","food","move","work","admin","road","gym","weather","health","time"];
 let S = load();
 function load(){
   try { const raw = localStorage.getItem(KEY); if (raw){ const s = JSON.parse(raw); return merge(s); } } catch(e){}
@@ -669,14 +958,22 @@ function merge(s){
   out.stats.bestStreak = Math.max(out.stats.bestStreak, out.streak || 0);
   out.games = Object.assign(JSON.parse(JSON.stringify(DEFAULT.games)), (s && s.games) || {});
   out.games.pairs = Object.assign({}, out.games.pairs);
+  const known = new Set((s && s.settings && s.settings.knownThemes) || ORIGINAL_THEMES);
+  THEMES.forEach(t => { if (!known.has(t.id) && !out.settings.themes.includes(t.id)) out.settings.themes.push(t.id); });
+  out.settings.themes = THEMES.map(t => t.id).filter(id => out.settings.themes.includes(id));
+  out.settings.knownThemes = THEMES.map(t => t.id);
   // progression d'avant les XP : 10 XP offerts par mot déjà vu
   if (!s || typeof s.xp !== "number") out.xp = Object.keys(out.cards).length * 10;
   return out;
 }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
 
+// Niveau 2 débloqué quand 70 % des mots du niveau 1 ont été vus
+const L1_IDS = ITEMS.filter(i => i.level === 1).map(i => i.id);
+function l1Ratio(){ return L1_IDS.filter(id => S.cards[id]).length / L1_IDS.length; }
+function maxLevel(){ return l1Ratio() >= 0.7 ? 2 : 1; }
 function statusOf(id){ const c = S.cards[id]; if (!c) return "n"; return c.iv >= 21 ? "k" : "l"; }
-function enabledItems(){ const on = new Set(S.settings.themes); return ITEMS.filter(i => on.has(i.theme)); }
+function enabledItems(){ const on = new Set(S.settings.themes), ml = maxLevel(); return ITEMS.filter(i => on.has(i.theme) && i.level <= ml); }
 function dueItems(){ const t = today(); return enabledItems().filter(i => S.cards[i.id] && S.cards[i.id].due <= t).sort((a,b) => S.cards[a.id].due - S.cards[b.id].due); }
 function newLeftToday(){ return Math.max(0, S.settings.newPerDay - (S.intro[today()] || 0)); }
 function newItems(limit){ return enabledItems().filter(i => !S.cards[i.id]).slice(0, limit); }
@@ -692,10 +989,14 @@ function pickVoice(){
   const st = document.getElementById("voiceState");
   if (st) st.textContent = VOICE ? "Voix estonienne trouvée : " + VOICE.name : "Aucune voix estonienne sur cet appareil. L'appli marche sans le son.";
 }
-if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function say(text){
+if ("speechSynthesis" in window){
+  pickVoice();
+  // la liste des voix arrive parfois après le chargement : on rafraîchit l'onglet Jeux (Dictée)
+  speechSynthesis.onvoiceschanged = () => { const had = !!VOICE; pickVoice(); if (had !== !!VOICE && !session && !game) render(); };
+}
+function say(text, rate){
   if (!VOICE) return;
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/…/g,"")); u.voice = VOICE; u.lang = VOICE.lang; u.rate = 0.85; speechSynthesis.speak(u); } catch(e){}
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/…/g,"")); u.voice = VOICE; u.lang = VOICE.lang; u.rate = rate || 0.85; speechSynthesis.speak(u); } catch(e){}
 }
 
 // ---------- utilitaires ----------
@@ -719,6 +1020,26 @@ function check(input, target){
   if (a === b) return "ok";
   if (bare(a) === bare(b)) return "meh";
   return "no";
+}
+// ET→FR écrit : n'importe quelle variante séparée par « / », sans parenthèses, articles (le, la, l', un, une) ni casse
+const ARTICLES = new Set(["le", "la", "l", "un", "une"]);
+function frForm(s){
+  const t = norm(s.replace(/\([^)]*\)/g, " ")).split(" ").filter(Boolean);
+  const u = t.filter(w => !ARTICLES.has(w));
+  return (u.length ? u : t).join(" ");
+}
+function checkFr(input, target){
+  const a = frForm(input); if (!a) return "no";
+  const vs = target.split("/").map(frForm).filter(Boolean);
+  if (vs.includes(a)) return "ok";
+  const deacc = x => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (vs.some(v => deacc(v) === deacc(a))) return "meh";
+  return "no";
+}
+function etKeys(){
+  return h("div", {class:"keys"}, ["õ","ä","ö","ü","š","ž"].map(ch => h("button", {type:"button", onclick:() => {
+    const i = $("#ans"); const p = i.selectionStart ?? i.value.length;
+    i.value = i.value.slice(0,p) + ch + i.value.slice(p); i.focus(); i.setSelectionRange(p+1,p+1); }}, ch)));
 }
 const th = tid => S.settings.colors ? tid : null;  // valeur de l'attribut data-th
 const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -826,6 +1147,10 @@ const BADGES = [
   { id:"run10",    i:"⚡", n:"Sur une lancée",     d:"10 bonnes réponses d'affilée dans une session", p:() => [S.stats.bestRun, 10] },
   { id:"pairs20",  i:"🧩", n:"Mains rapides",      d:"Finir « Paires » en moins de 20 s", p:() => [bestPairs() < 20 ? 1 : 0, 1] },
   { id:"tf20",     i:"✅", n:"Réflexe éclair",     d:"20 points au « Vrai ou faux »",   p:() => [S.games.tf, 20] },
+  { id:"level2",   i:"🔓", n:"Niveau supérieur",   d:"Débloquer le niveau 2 (70 % du niveau 1 vu)", p:() => [Math.min(70, Math.floor(l1Ratio() * 100)), 70] },
+  { id:"expert",   i:"🥶", n:"Sang-froid",         d:"Finir une session de 5 cartes ou plus en mode Expert", p:() => [S.stats.expertSessions, 1] },
+  { id:"dictee",   i:"🎧", n:"Oreille fine",       d:"Une dictée parfaite (10 / 10)",   p:() => [S.stats.dicteePerfect, 1] },
+  { id:"order10",  i:"🔀", n:"Syntaxe en place",   d:"10 phrases remises dans l'ordre", p:() => [S.stats.orderOk, 10] },
   { id:"lvl4",     i:"🏠", n:"Elanik",             d:"Atteindre le niveau 4 (habitant)", p:() => [levelOf(S.xp) + 1, 4] },
   { id:"lvl7",     i:"👑", n:"Põliseestlane",      d:"Atteindre le niveau 7 (Estonien de souche)", p:() => [levelOf(S.xp) + 1, 7] },
 ];
@@ -897,6 +1222,15 @@ function render(){
 }
 
 // ---------- accueil ----------
+function levelBlock(){
+  const r = l1Ratio();
+  if (r >= 0.7) return h("p", {class:"hint"}, `🔓 Niveau 2 débloqué : ${ITEMS.length - L1_IDS.length} mots et phrases de niveau intermédiaire, dont le thème « Conversation ».`);
+  return h("div", {class:"lvl"},
+    h("b", {}, `🔒 Niveau 2 : ${ITEMS.length - L1_IDS.length} mots et phrases + le thème « Conversation »`),
+    h("span", {class:"hint"}, `Se débloque quand tu as vu 70 % du niveau 1. Tu en es à ${Math.floor(r * 100)} %.`),
+    h("div", {class:"xpbar"}, h("i", {style:`width:${Math.min(100, r / 0.7 * 100)}%`}))
+  );
+}
 function renderHome(){
   const due = dueItems().length, nl = Math.min(newLeftToday(), newItems(999).length);
   const total = Math.min(S.settings.size, due + nl);
@@ -915,13 +1249,18 @@ function renderHome(){
     h("div", {class:"stats"},
       h("div", {}, h("b", {}, String(learned)), h("span", {}, "vus")),
       h("div", {}, h("b", {}, String(known)), h("span", {}, "maîtrisés")),
-      h("div", {}, h("b", {}, String(ITEMS.length)), h("span", {}, "au total"))
+      h("div", {}, h("b", {}, String(ITEMS.filter(i => i.level <= maxLevel()).length)), h("span", {}, "au total"))
     ),
     S.settings.phrase ? phraseBlock() : null,
     h("h2", {}, "Thèmes"),
     h("p", {class:"hint"}, "Décoche ce qui ne t'intéresse pas pour l'instant. Les nouveaux mots arrivent dans l'ordre de la liste."),
+    levelBlock(),
     h("div", {class:"themes"}, THEMES.map(t => {
-      const ids = t.words.map(w => t.id + "|" + w[0]);
+      const ids = itemsOfTheme(t.id, maxLevel()).map(i => i.id);
+      if (!ids.length) return h("div", {class:"theme locked", "data-th":th(t.id)},
+        h("span", {class:"lock", "aria-hidden":"true"}, "🔒"),
+        h("label", {}, h("span", {class:"tn"}, t.name), h("span", {class:"te"}, t.et)),
+        h("span", {class:"tc"}, "niveau 2"));
       const k = ids.filter(i => statusOf(i) === "k").length, l = ids.filter(i => statusOf(i) === "l").length;
       const on = S.settings.themes.includes(t.id);
       return h("div", {class:"theme", "data-th":th(t.id)},
@@ -966,24 +1305,48 @@ function start(bonus){
   if (!q.length){ return; }
   // mélange léger : les nouvelles intercalées
   for (let i = q.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [q[i], q[j]] = [q[j], q[i]]; }
-  session = { queue:q, pos:0, total:q.length, revealed:false, typed:null, verdict:null, correct:0, seen:0, xp:0, run:0, bestRun:0, misses:0 };
+  session = { queue:q, pos:0, total:q.length, revealed:false, typed:null, verdict:null, correct:0, seen:0, xp:0, run:0, bestRun:0, misses:0, expert:S.settings.expert, level:maxLevel() };
   prepCard(); render();
 }
 function prepCard(){
   const cur = session.queue[session.pos]; if (!cur) return;
   const d = S.settings.dir;
   cur.dir = cur.isNew && !cur.again ? "et" : d === "mixed" ? (Math.random() < .5 ? "et" : "fr") : d;
-  session.revealed = false; session.typed = null; session.verdict = null;
+  // Expert : chrono et réponse écrite, sauf à la toute première découverte d'un mot
+  cur.expert = session.expert && !(cur.isNew && !cur.again);
+  cur.deadline = null;
+  session.revealed = false; session.typed = null; session.verdict = null; session.timeout = false;
+  stopTick();
+}
+const EXPERT_MS = 8000;
+function startExpertTimer(){
+  const s = session, cur = s.queue[s.pos];
+  if (!cur.deadline) cur.deadline = Date.now() + EXPERT_MS;
+  stopTick();
+  tick = setInterval(() => {
+    if (session !== s || s.revealed || s.queue[s.pos] !== cur){ stopTick(); return; }
+    const left = cur.deadline - Date.now();
+    const b = $("#tbar"), n = $("#tsec");
+    if (b){ b.firstChild.style.width = Math.max(0, left / EXPERT_MS * 100) + "%"; b.classList.toggle("low", left < 3000); }
+    if (n) n.textContent = Math.max(0, Math.ceil(left / 1000)) + " s";
+    if (left <= 0){
+      stopTick();
+      const i = $("#ans"); s.typed = i ? i.value.trim() : ""; s.verdict = "no"; s.timeout = true;
+      sfx("no");
+      flip(() => { s.revealed = true; render(); say(cur.item.et); });
+    }
+  }, 100);
 }
 function renderSession(){
   const s = session, cur = s.queue[s.pos];
   if (!cur) return renderDone();
   const it = cur.item, theme = THEME_BY_ID[it.theme];
-  const typing = S.settings.mode === "type" && cur.dir === "fr";
+  const typing = cur.expert || (S.settings.mode === "type" && cur.dir === "fr");
+  const typeFr = typing && cur.dir === "et";  // Expert ET→FR : on écrit la traduction française
   const promptText = cur.dir === "et" ? it.et : it.fr;
   const wrap = h("div", {style:"display:flex;flex-direction:column;gap:14px"});
   wrap.append(h("div", {class:"prog"},
-    h("button", {class:"x", onclick:() => { session = null; render(); }}, "✕ Quitter"),
+    h("button", {class:"x", onclick:() => { leave(); render(); }}, "✕ Quitter"),
     h("div", {class:"bar"}, h("i", {style:`width:${s.pos/s.queue.length*100}%`})),
     h("span", {}, `${Math.min(s.pos+1, s.queue.length)} / ${s.queue.length}`),
     S.settings.xp ? h("span", {class:"sxp"}, `+${s.xp} XP`) : null
@@ -991,17 +1354,25 @@ function renderSession(){
   const card = h("div", {class:"card", "data-th":th(it.theme)});
   card.append(h("div", {class:"card-top"},
     h("span", {class:"chip" + (cur.isNew ? " new" : "")}, cur.isNew ? "Nouveau · " + theme.name : theme.name),
-    h("span", {class:"dirl"}, cur.dir === "et" ? "ET → FR" : "FR → ET")
+    h("span", {class:"dirl"}, (cur.expert ? "Expert · " : "") + (cur.dir === "et" ? "ET → FR" : "FR → ET"))
   ));
   card.append(h("div", {class:"prompt" + (cur.dir === "fr" ? " fr" : ""), lang: cur.dir === "et" ? "et" : "fr"}, promptText));
-  if (cur.dir === "et") card.append(h("div", {}, h("button", {class:"say", "data-say":true, onclick:() => say(it.et)}, "🔊 Écouter")));
+  // en Expert, pas d'écoute avant la réponse (elle trahirait la prononciation)
+  if (cur.dir === "et" && !(cur.expert && !s.revealed)) card.append(h("div", {}, h("button", {class:"say", "data-say":true, onclick:() => say(it.et)}, "🔊 Écouter")));
 
   if (!s.revealed){
+    if (cur.expert){
+      const left = cur.deadline ? Math.max(0, cur.deadline - Date.now()) : EXPERT_MS;
+      card.append(h("div", {class:"ghead"}, h("div", {class:"tbar" + (left < 3000 ? " low" : ""), id:"tbar", style:"flex:1"}, h("i", {style:`width:${left / EXPERT_MS * 100}%`})),
+        h("span", {class:"sxp", id:"tsec", style:"color:var(--ink-2)"}, Math.ceil(left / 1000) + " s")));
+      startExpertTimer();
+    }
     if (typing){
-      const inp = h("input", {id:"ans", type:"text", autocomplete:"off", autocapitalize:"off", spellcheck:"false", lang:"et", placeholder:"Écris en estonien…", "aria-label":"Ta réponse en estonien",
+      const inp = h("input", {id:"ans", type:"text", autocomplete:"off", autocapitalize:"off", spellcheck:"false", lang: typeFr ? "fr" : "et",
+        placeholder: typeFr ? "Écris en français…" : "Écris en estonien…", "aria-label": typeFr ? "Ta réponse en français" : "Ta réponse en estonien",
         onkeydown:e => { if (e.key === "Enter") submitTyped(); }});
       card.append(h("div", {class:"type"}, inp));
-      card.append(h("div", {class:"keys"}, ["õ","ä","ö","ü","š","ž"].map(ch => h("button", {type:"button", onclick:() => { const i = $("#ans"); const p = i.selectionStart ?? i.value.length; i.value = i.value.slice(0,p) + ch + i.value.slice(p); i.focus(); i.setSelectionRange(p+1,p+1); }}, ch))));
+      if (!typeFr) card.append(etKeys());
       wrap.append(card, h("button", {class:"cta", onclick:submitTyped}, "Vérifier"));
       setTimeout(() => { const i = $("#ans"); if (i) i.focus(); }, 30);
     } else {
@@ -1012,7 +1383,7 @@ function renderSession(){
 
   const ans = h("div", {class:"answer"});
   if (s.verdict){
-    const msg = { ok:"Exact !", meh:"Presque : attention aux lettres accentuées.", no:"Pas tout à fait." }[s.verdict];
+    const msg = s.timeout ? "Temps écoulé !" : { ok:"Exact !", meh:"Presque : attention aux lettres accentuées.", no:"Pas tout à fait." }[s.verdict];
     ans.append(h("div", {class:"verdict " + s.verdict}, msg + (s.verdict !== "ok" && s.typed ? ` Tu as écrit « ${s.typed} ».` : "")));
   }
   ans.append(h("div", {class:"a" + (cur.dir === "et" ? " fr" : ""), lang: cur.dir === "et" ? "fr" : "et"}, cur.dir === "et" ? it.fr : it.et));
@@ -1024,7 +1395,7 @@ function renderSession(){
   const c = S.cards[it.id] || {n:0, ef:2.5, iv:0};
   const sug = s.verdict === "ok" ? 4 : s.verdict === "meh" ? 3 : s.verdict === "no" ? 1 : null;
   wrap.append(h("div", {class:"grades"}, [[1,"Raté"],[3,"Difficile"],[4,"Bien"],[5,"Facile"]].map(([q,l]) =>
-    h("button", {class:"g"+q + (sug === q ? " sug" : ""), onclick:() => grade(q)}, l, h("small", {}, q < 3 ? "à revoir" : fmtIv(sm2(c,q).iv)))
+    h("button", {class:"g"+q + (sug === q ? " sug" : ""), disabled: s.timeout && q > 1, onclick:() => grade(q)}, l, h("small", {}, q < 3 ? "à revoir" : fmtIv(sm2(c,q).iv)))
   )));
   return wrap;
 }
@@ -1032,7 +1403,8 @@ function submitTyped(){
   const s = session, cur = s.queue[s.pos], i = $("#ans");
   const v = i ? i.value : "";
   if (s.revealed || flipping) return;
-  s.typed = v.trim(); s.verdict = check(v, cur.item.et);
+  stopTick();
+  s.typed = v.trim(); s.verdict = cur.dir === "et" ? checkFr(v, cur.item.fr) : check(v, cur.item.et);
   if (s.verdict === "ok") S.stats.typedOk++;
   sfx(s.verdict === "no" ? "no" : "ok");
   flip(() => { s.revealed = true; render(); say(cur.item.et); });
@@ -1047,7 +1419,7 @@ function flip(fn){
   setTimeout(() => { flipping = false; fn(); const c = $(".card"); if (c) c.classList.add("flip-in"); }, 160);
 }
 function grade(q){
-  const s = session, cur = s.queue[s.pos], id = cur.item.id, t = today();
+  const s = session, cur = s.queue[s.pos], id = cur.item.id, t = today(), lvBefore = maxLevel();
   if (cur.isNew && !cur.again){ S.intro[t] = (S.intro[t] || 0) + 1; }
   const prev = S.cards[id] || {n:0, ef:2.5, iv:0};
   const next = sm2(prev, q);
@@ -1072,7 +1444,9 @@ function grade(q){
   if (finished){
     S.stats.sessions++;
     if (s.misses === 0 && s.seen >= 5) S.stats.perfect++;
+    if (s.expert && s.seen >= 5) S.stats.expertSessions++;
   }
+  if (maxLevel() > lvBefore) setTimeout(() => toast(`🔓 Niveau 2 débloqué : ${ITEMS.length - L1_IDS.length} nouveaux mots !`), 200);
   save();
   prepCard(); render();
   if (finished){ sfx("done"); confetti(); }
@@ -1102,8 +1476,9 @@ function stopTick(){ if (tick){ clearInterval(tick); tick = null; } }
 const GAMES = [
   { key:"gPairs", id:"pairs", i:"🧩", n:"Paires",       d:"6 mots, 6 traductions : relie-les le plus vite possible" },
   { key:"gTf",    id:"tf",    i:"⏱️", n:"Vrai ou faux", d:"60 secondes : la traduction est-elle juste ?" },
+  { key:"gDictee", id:"dictee", i:"🎧", n:"Dictée",     d:"L'appli prononce 10 mots estoniens, tu les écris" },
+  { key:"gOrder", id:"order", i:"🔀", n:"Remettre dans l'ordre", d:"5 phrases estoniennes en morceaux à reconstituer" },
 ];
-function maxLevel(){ return 1; }
 function poolItems(themeId){
   const on = new Set(S.settings.themes), ml = maxLevel();
   return ITEMS.filter(i => i.level <= ml && (themeId ? i.theme === themeId : on.has(i.theme)));
@@ -1125,6 +1500,8 @@ function renderGames(){
   if (game && game.type === "pairs") return renderPairs();
   if (game && game.type === "pairsPick") return renderPairsPick();
   if (game && game.type === "tf") return renderTf();
+  if (game && game.type === "dictee") return renderDictee();
+  if (game && game.type === "order") return renderOrder();
   if (game && game.type === "over"){
     const g = game;
     return h("div", {class:"done"},
@@ -1144,14 +1521,21 @@ function renderGames(){
 }
 function gameButton(g){
   const rec = g.id === "pairs" ? (isFinite(bestPairs()) ? "Record : " + fmtS(bestPairs()*1000) : "")
-            : g.id === "tf" ? (S.games.tf ? `Record : ${S.games.tf} points` : "") : "";
-  return h("button", {class:"game", onclick:() => startGame(g.id)},
-    h("span", {class:"gi", "aria-hidden":"true"}, g.i), h("b", {}, g.n), h("span", {}, g.d + (rec ? " · " + rec : "")));
+            : g.id === "tf" ? (S.games.tf ? `Record : ${S.games.tf} points` : "")
+            : g.id === "dictee" ? (S.games.dictee ? `Record : ${S.games.dictee} / 10` : "")
+            : g.id === "order" ? (S.games.order ? `Record : ${S.games.order} / 5` : "") : "";
+  const off = g.id === "dictee" && !VOICE;
+  return h("button", {class:"game", disabled:off, "aria-disabled":String(off), onclick:() => startGame(g.id)},
+    h("span", {class:"gi", "aria-hidden":"true"}, g.i), h("b", {}, g.n),
+    h("span", {}, off ? "Indisponible : aucune voix estonienne sur cet appareil. Installe-la dans les réglages de synthèse vocale du téléphone (voir Réglages → Son), puis rouvre l'appli."
+                      : g.d + (rec ? " · " + rec : "")));
 }
 function startGame(id){
   stopTick();
   if (id === "pairs") game = { type:"pairsPick" };
   if (id === "tf") startTf();
+  if (id === "dictee") startDictee();
+  if (id === "order") startOrder();
   render(); window.scrollTo(0,0);
 }
 
@@ -1279,6 +1663,117 @@ function renderTf(){
   );
 }
 
+// --- Dictée ---
+function startDictee(){
+  if (!VOICE) return;
+  let pool = poolItems().filter(i => S.cards[i.id]);
+  if (pool.length < 10) pool = poolItems();
+  pool = pool.filter(i => !i.et.includes("…") && i.et.length <= 32);
+  game = { type:"dictee", list: shuffle(pool.slice()).slice(0, 10), i:0, ok:0, meh:0, verdict:null, typed:"" };
+  setTimeout(() => game && game.type === "dictee" && say(game.list[0].et), 250);
+}
+function renderDictee(){
+  const g = game, it = g.list[g.i];
+  const wrap = h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    gameHead(h("span", {class:"chrono"}, `${g.i + 1} / ${g.list.length}`)));
+  const card = h("div", {class:"card", "data-th":th(it.theme)},
+    h("div", {class:"card-top"}, h("span", {class:"chip"}, "Dictée"), h("span", {class:"dirl"}, `Score : ${g.ok}`)),
+    h("p", {class:"hint"}, "Écoute et écris ce que tu entends."),
+    h("div", {class:"btns"},
+      h("button", {onclick:() => say(it.et)}, "🔊 Réécouter"),
+      h("button", {onclick:() => say(it.et, 0.55)}, "🐢 Lentement")));
+  if (!g.verdict){
+    card.append(h("div", {class:"type"}, h("input", {id:"ans", type:"text", autocomplete:"off", autocapitalize:"off", spellcheck:"false", lang:"et",
+      placeholder:"Écris en estonien…", "aria-label":"Ce que tu entends, en estonien", onkeydown:e => { if (e.key === "Enter") checkDictee(); }})), etKeys());
+    wrap.append(card, h("button", {class:"cta", onclick:checkDictee}, "Vérifier"));
+    setTimeout(() => { const i = $("#ans"); if (i) i.focus(); }, 30);
+  } else {
+    const msg = { ok:"Exact !", meh:"Presque : attention aux lettres accentuées.", no:"Pas tout à fait." }[g.verdict];
+    card.append(h("div", {class:"answer"},
+      h("div", {class:"verdict " + g.verdict}, msg + (g.verdict !== "ok" && g.typed ? ` Tu as écrit « ${g.typed} ».` : "")),
+      h("div", {class:"a", lang:"et"}, it.et), h("div", {class:"ex"}, it.fr), h("div", {class:"pron"}, "[ " + it.pr + " ]")));
+    wrap.append(card, h("button", {class:"cta", onclick:nextDictee}, g.i + 1 < g.list.length ? "Suivant" : "Terminer"));
+  }
+  return wrap;
+}
+function checkDictee(){
+  const g = game, it = g.list[g.i], i = $("#ans"), v = i ? i.value : "";
+  if (g.verdict) return;
+  g.typed = v.trim(); g.verdict = check(v, it.et);
+  if (g.verdict === "ok"){ g.ok++; S.stats.typedOk++; } else if (g.verdict === "meh") g.meh++;
+  sfx(g.verdict === "no" ? "no" : "ok");
+  render();
+}
+function nextDictee(){
+  const g = game;
+  if (g.i + 1 < g.list.length){ g.i++; g.verdict = null; g.typed = ""; render(); say(g.list[g.i].et); return; }
+  const n = g.list.length, prev = S.games.dictee, record = g.ok > prev;
+  if (record) S.games.dictee = g.ok;
+  if (g.ok === n && n >= 10) S.stats.dicteePerfect++;
+  gameOver("Dictée", [`${g.ok} / ${n} exacts` + (g.meh ? `, ${g.meh} presque` : "") + "."], g.ok * 10 + g.meh * 5,
+    () => { startDictee(); render(); }, record && g.ok > 0);
+}
+
+// --- Remettre dans l'ordre ---
+// mots sans ponctuation ; la majuscule initiale est retirée (elle trahirait le premier mot), sauf noms propres
+const PROPER = /^(Tallinn|Eesti|Saaremaa|Prantsus|IT-|ID-)/;
+const orderTokens = et => et.replace(/[.!?…]+$/, "").split(/\s+/).map(w => w.replace(/[,.!?]/g, "")).filter(Boolean)
+  .map((w, k) => k === 0 && !PROPER.test(w) ? w[0].toLowerCase() + w.slice(1) : w);
+function startOrder(){
+  const ok = i => !i.et.includes("…") && orderTokens(i.et).length >= 3 && orderTokens(i.et).length <= 6;
+  let pool = poolItems().filter(ok);
+  if (pool.length < 5) pool = ITEMS.filter(i => i.level <= maxLevel() && ok(i));
+  game = { type:"order", list: shuffle(pool.slice()).slice(0, 5), i:0, score:0, res:null };
+  prepOrder();
+}
+function prepOrder(){
+  const g = game, toks = orderTokens(g.list[g.i].et);
+  let mix;
+  do { mix = shuffle(toks.map((t, k) => ({ t, k }))); } while (mix.map(x => x.t).join(" ") === toks.join(" ") && new Set(toks).size > 1);
+  g.toks = toks; g.mix = mix; g.placed = []; g.res = null;
+}
+function renderOrder(){
+  const g = game, it = g.list[g.i];
+  const used = new Set(g.placed);
+  const wrap = h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    gameHead(h("span", {class:"chrono"}, `${g.i + 1} / ${g.list.length}`)));
+  const card = h("div", {class:"card", "data-th":th(it.theme)},
+    h("div", {class:"card-top"}, h("span", {class:"chip"}, "Remettre dans l'ordre"), h("span", {class:"dirl"}, `Score : ${g.score}`)),
+    h("div", {class:"prompt fr", style:"margin:0"}, it.fr),
+    h("div", {class:"slots" + (g.res ? " " + g.res : ""), "aria-label":"Ta phrase"},
+      g.placed.length ? g.placed.map(k => h("button", {class:"tok on", lang:"et", disabled:!!g.res,
+        onclick:() => { g.placed = g.placed.filter(x => x !== k); sfx("tap"); render(); }}, g.mix[k].t))
+      : h("span", {class:"hint"}, "Touche les mots dans le bon ordre…")),
+    h("div", {class:"toks"}, g.mix.map((m, k) => h("button", {class:"tok", lang:"et", disabled: used.has(k) || !!g.res,
+      onclick:() => { g.placed.push(k); sfx("tap"); if (g.placed.length === g.mix.length) checkOrder(); else render(); }}, m.t)))
+  );
+  if (g.res){
+    card.append(h("div", {class:"answer"},
+      h("div", {class:"verdict " + g.res}, g.res === "ok" ? "Exact !" : "Pas tout à fait. L'ordre attendu :"),
+      h("div", {class:"a", lang:"et"}, it.et), h("div", {class:"pron"}, "[ " + it.pr + " ]")));
+    wrap.append(card, h("button", {class:"cta", onclick:nextOrder}, g.i + 1 < g.list.length ? "Suivant" : "Terminer"));
+    if (g.res === "no") wrap.append(h("button", {class:"ghost", onclick:() => { g.placed = []; g.res = null; render(); }}, "Réessayer"));
+  } else {
+    wrap.append(card, h("button", {class:"ghost", onclick:() => { g.placed = []; render(); }, disabled: !g.placed.length}, "Tout effacer"));
+  }
+  return wrap;
+}
+function checkOrder(){
+  const g = game, ok = g.placed.map(k => g.mix[k].t).join(" ") === g.toks.join(" ");
+  g.res = ok ? "ok" : "no";
+  if (ok){ if (!g.retried) g.score++; S.stats.orderOk++; sfx("ok"); say(g.list[g.i].et); }
+  else { g.retried = true; sfx("no"); }
+  render();
+}
+function nextOrder(){
+  const g = game;
+  if (g.i + 1 < g.list.length){ g.i++; g.retried = false; prepOrder(); render(); return; }
+  const prev = S.games.order, record = g.score > prev;
+  if (record) S.games.order = g.score;
+  gameOver("Remettre dans l'ordre", [`${g.score} / ${g.list.length} phrases justes du premier coup.`], g.score * 10 + 5,
+    () => { startOrder(); render(); }, record && g.score > 0);
+}
+
 // ---------- lexique ----------
 let lexQuery = "";
 function renderLex(){
@@ -1291,17 +1786,18 @@ function renderLex(){
   function fill(){
     list.replaceChildren();
     const q = bare(lexQuery);
+    if (maxLevel() < 2) list.append(h("p", {class:"hint"}, `🔒 Niveau 2 : ${ITEMS.length - L1_IDS.length} mots et phrases se débloquent quand tu as vu 70 % du niveau 1.`));
     THEMES.forEach(t => {
-      const rows = t.words.filter(w => !q || bare(w[0]).includes(q) || bare(w[1]).includes(q));
+      const rows = itemsOfTheme(t.id, maxLevel()).filter(i => !q || bare(i.et).includes(q) || bare(i.fr).includes(q));
       if (!rows.length) return;
-      list.append(h("section", {"data-th":th(t.id)}, h("h3", {}, t.name), h("ul", {}, rows.map(w => {
-        const id = t.id + "|" + w[0];
-        return h("li", {},
-          h("span", {class:"dot " + statusOf(id)}),
-          h("div", {class:"w"}, h("b", {lang:"et"}, w[0]), h("span", {}, w[1]), h("em", {}, w[2])),
-          h("button", {"data-say":true, "aria-label":"Écouter " + w[0], onclick:() => say(w[0])}, "🔊")
-        );
-      }))));
+      list.append(h("section", {"data-th":th(t.id)}, h("h3", {}, t.name), h("ul", {}, rows.map(i =>
+        h("li", {},
+          h("span", {class:"dot " + statusOf(i.id)}),
+          h("div", {class:"w"}, h("b", {lang:"et"}, i.et, i.level > 1 ? h("small", {class:"lv"}, " N2") : null), h("span", {}, i.fr), h("em", {}, i.pr),
+            i.verify ? h("small", {class:"vf"}, "⚑ à faire valider : " + i.verify) : null),
+          h("button", {"data-say":true, "aria-label":"Écouter " + i.et, onclick:() => say(i.et)}, "🔊")
+        )
+      ))));
     });
     if (!list.children.length) list.append(h("p", {class:"hint"}, "Aucun mot ne correspond."));
     pickVoice();
@@ -1314,8 +1810,10 @@ function renderLex(){
 function seg(key, opts){
   return h("div", {class:"seg"}, opts.map(([v,l]) => h("button", {"aria-pressed": String(S.settings[key] === v), onclick:() => { S.settings[key] = v; save(); render(); }}, l)));
 }
-function onOff(key, label, hint){
-  return h("div", {class:"row"}, h("label", {}, label, hint ? h("small", {}, hint) : null), seg(key, [[true,"Oui"],[false,"Non"]]));
+function onOff(key, label, hint, off){
+  const sg = seg(key, [[true,"Oui"],[false,"Non"]]);
+  if (off) sg.querySelectorAll("button").forEach(b => b.disabled = true);
+  return h("div", {class:"row" + (off ? " off" : "")}, h("label", {}, label, hint ? h("small", {}, hint) : null), sg);
 }
 function renderSettings(){
   const exp = h("textarea", {id:"exportBox", readonly:true, hidden:true});
@@ -1332,7 +1830,8 @@ function renderSettings(){
       h("div", {class:"row"}, h("label", {}, "Cartes par session"), seg("size", [[10,"10"],[20,"20"],[30,"30"]])),
       h("div", {class:"row"}, h("label", {}, "Nouveaux mots / jour", h("small", {}, "10 suffit pour tenir sans saturer")), seg("newPerDay", [[5,"5"],[10,"10"],[20,"20"]])),
       h("div", {class:"row"}, h("label", {}, "Sens"), seg("dir", [["et","ET→FR"],["fr","FR→ET"],["mixed","Mixte"]])),
-      h("div", {class:"row"}, h("label", {}, "Réponse", h("small", {}, "« Écrire » s'applique quand tu dois trouver le mot estonien")), seg("mode", [["flip","Retourner"],["type","Écrire"]]))
+      h("div", {class:"row"}, h("label", {}, "Réponse", h("small", {}, "« Écrire » s'applique quand tu dois trouver le mot estonien")), seg("mode", [["flip","Retourner"],["type","Écrire"]])),
+      onOff("expert", "Mode Expert", "8 s par carte (temps écoulé = Raté), réponse écrite dans les deux sens, pas d'écoute ni de prononciation avant la réponse. Les mots tout neufs restent en découverte.")
     ),
     h("h2", {}, "Fonctionnalités"),
     h("div", {class:"set"},
@@ -1345,7 +1844,9 @@ function renderSettings(){
       onOff("colors", "Couleur par thème", "Sur les cartes et la liste des thèmes")
     ),
     h("h2", {}, "Jeux"),
-    h("div", {class:"set"}, GAMES.map(g => onOff(g.key, g.n, g.d))),
+    h("div", {class:"set"}, GAMES.map(g => g.id === "dictee" && !VOICE
+      ? onOff(g.key, g.n, "Indisponible : aucune voix estonienne sur cet appareil (voir « Son » ci-dessous).", true)
+      : onOff(g.key, g.n, g.d))),
     h("h2", {}, "Son"),
     h("div", {class:"box"},
       h("p", {class:"hint", id:"voiceState"}, ""),
