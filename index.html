@@ -40,6 +40,7 @@
   --good:#5DC08B; --good-soft:#12291E; --bad:#EE826B; --bad-soft:#2E1813; --warn:#E2B158; --warn-soft:#2A2112;
   color-scheme:dark}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 96px}
 .app{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
@@ -204,6 +205,60 @@ textarea{width:100%;min-height:120px;border:1.5px solid var(--line);background:v
 .badge .bp{width:80%;height:4px;background:var(--surface-2);border-radius:9px;overflow:hidden;margin-top:4px}
 .badge .bp i{display:block;height:100%;background:var(--accent)}
 .badge em{font-style:normal;font-size:12px;color:var(--good);font-weight:700}
+
+/* couleur d'accent par thème (variables --tc injectées par le JS) */
+.card[data-th]{border-top:5px solid var(--tc)}
+.card[data-th] .chip{color:var(--tc)}
+.theme[data-th]{box-shadow:inset 4px 0 0 var(--tc);border-radius:0}
+.theme[data-th]:first-child{border-top-left-radius:var(--r)}.theme[data-th]:last-child{border-bottom-left-radius:var(--r)}
+.theme[data-th] input{accent-color:var(--tc)}
+.theme[data-th] .bar .l{background:var(--tc)}
+.lex section[data-th] h3{color:var(--tc)}
+
+/* retournement 3D */
+.card{transform-origin:50% 50%;backface-visibility:hidden}
+.flip-out{animation:flipOut .16s ease-in forwards}
+.flip-in{animation:flipIn .24s ease-out}
+@keyframes flipOut{from{transform:perspective(1100px) rotateY(0)}to{transform:perspective(1100px) rotateY(90deg)}}
+@keyframes flipIn{from{transform:perspective(1100px) rotateY(-90deg)}to{transform:perspective(1100px) rotateY(0)}}
+
+/* jeux */
+.games{display:flex;flex-direction:column;gap:10px}
+.game{width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center}
+.game .gi{grid-row:1/3;font-size:32px;line-height:1}
+.game b{font-family:var(--f-display);font-size:19px}
+.game span{font-size:14px;color:var(--ink-3)}
+.game:disabled{opacity:.5;cursor:default}
+.ghead{display:flex;align-items:center;gap:12px}
+.ghead .x{margin-right:auto}
+.chrono{font-family:var(--f-display);font-weight:800;font-size:24px;font-variant-numeric:tabular-nums}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pairs .col{display:flex;flex-direction:column;gap:8px}
+.tile{min-height:58px;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 10px;font-weight:700;font-size:15.5px;line-height:1.25;overflow-wrap:anywhere;transition:transform .12s,background .15s}
+.tile.et{font-family:var(--f-display);font-size:17px}
+.tile.sel{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.03)}
+.tile.ok{border-color:var(--good);background:var(--good-soft);color:var(--good);opacity:.55}
+.tile.bad{border-color:var(--bad);background:var(--bad-soft);color:var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.tf{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 20px;min-height:220px;display:flex;flex-direction:column;justify-content:center;gap:10px;text-align:center}
+.tf[data-th]{border-top:5px solid var(--tc)}
+.tf .tfe{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,8vw,36px);line-height:1.15;overflow-wrap:anywhere}
+.tf .tff{font-size:20px;font-weight:700;color:var(--ink-2)}
+.tf .eq{color:var(--ink-3);font-size:14px}
+.tfbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tfbtns button{border:0;border-radius:var(--r);padding:22px 8px;font-family:var(--f-display);font-weight:800;font-size:22px}
+.tfbtns .v{background:var(--good-soft);color:var(--good)}
+.tfbtns .f{background:var(--bad-soft);color:var(--bad)}
+.tbar{height:8px;background:var(--surface-2);border-radius:9px;overflow:hidden}
+.tbar i{display:block;height:100%;background:var(--accent)}
+.tbar.low i{background:var(--bad)}
+.fb{min-height:1.5em;margin:0;font-size:15px;font-weight:700;text-align:center}
+.fb.ok{color:var(--good)}.fb.no{color:var(--bad)}
+.pick{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.pick button{border:0;border-bottom:1px solid var(--line);background:transparent;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px;text-align:left;font-weight:700}
+.pick button:last-child{border-bottom:0}
+.pick button[data-th]{box-shadow:inset 4px 0 0 var(--tc)}
+.pick small{font-weight:400;color:var(--ink-3);font-size:13px;white-space:nowrap}
 
 @media (max-width:460px){.brand small{display:none}.brand{font-size:20px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -555,6 +610,19 @@ const PHRASES = [
 ["Kurat!","Bon sang ! (litt. « diable ! »)","Le juron national, à manier avec modération… mais tu l'entendras partout."],
 ["Lepime kokku!","Marché conclu ! / On se met d'accord !","Pour fixer un rendez-vous ou conclure une discussion."],
 ];
+// Couleur d'accent par thème : [mode clair, mode sombre], contraste ≥ 4,5:1 sur les surfaces
+const THEME_COLORS = {
+  base:["#1F5FBF","#7FAEF0"], num:["#8C5A00","#E9B45A"], food:["#B23A26","#F28B75"], move:["#0D7570","#56CFC5"],
+  work:["#5A47C2","#A898F6"], admin:["#5C6A10","#C1D16B"], road:["#A12F79","#EE8ACB"], gym:["#B0213F","#F37A93"],
+  weather:["#0A6F99","#64C4EE"], health:["#237245","#6BD39A"], time:["#8A4B1E","#E3A06E"], conv:["#7A3FB0","#CB98F2"],
+};
+(function(){
+  const css = (pre, i) => Object.entries(THEME_COLORS).map(([k, c]) => `${pre}[data-th="${k}"]{--tc:${c[i]}}`).join("");
+  const st = document.createElement("style");
+  st.textContent = css("", 0) + `@media (prefers-color-scheme:dark){${css(':root:not([data-theme="light"]) ', 1)}}` + css(':root[data-theme="dark"] ', 1);
+  document.head.append(st);
+})();
+
 // ---------- SRS (SM-2) ----------
 function sm2(c, q){
   // c: {n, ef, iv} ; q: 1 (raté) 3 (difficile) 4 (bien) 5 (facile)
@@ -582,8 +650,10 @@ const KEY = "eesti.sonad.v1";
 // Nouveaux champs : toujours ajoutés avec une valeur par défaut dans merge(), jamais renommés.
 const DEFAULT = { cards:{}, intro:{}, streak:0, lastDay:null, reviews:{},
   xp:0, badges:{}, stats:{ sessions:0, perfect:0, typedOk:0, bestRun:0, bestStreak:0 },
+  games:{ pairs:{}, tf:0 },
   settings:{ size:10, newPerDay:10, dir:"mixed", mode:"flip", themes: THEMES.map(t => t.id),
-    xp:true, confetti:true, sound:true, badges:true, phrase:true } };
+    xp:true, confetti:true, sound:true, badges:true, phrase:true,
+    flip:true, colors:true, gPairs:true, gTf:true } };
 let S = load();
 function load(){
   try { const raw = localStorage.getItem(KEY); if (raw){ const s = JSON.parse(raw); return merge(s); } } catch(e){}
@@ -597,6 +667,8 @@ function merge(s){
   out.badges = (s && s.badges) || {};
   out.stats = Object.assign(JSON.parse(JSON.stringify(DEFAULT.stats)), (s && s.stats) || {});
   out.stats.bestStreak = Math.max(out.stats.bestStreak, out.streak || 0);
+  out.games = Object.assign(JSON.parse(JSON.stringify(DEFAULT.games)), (s && s.games) || {});
+  out.games.pairs = Object.assign({}, out.games.pairs);
   // progression d'avant les XP : 10 XP offerts par mot déjà vu
   if (!s || typeof s.xp !== "number") out.xp = Object.keys(out.cards).length * 10;
   return out;
@@ -648,6 +720,7 @@ function check(input, target){
   if (bare(a) === bare(b)) return "meh";
   return "no";
 }
+const th = tid => S.settings.colors ? tid : null;  // valeur de l'attribut data-th
 const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
@@ -751,6 +824,8 @@ const BADGES = [
   { id:"typed50",  i:"⌨️", n:"Plume estonienne",   d:"50 réponses écrites exactes",     p:() => [S.stats.typedOk, 50] },
   { id:"perfect",  i:"⭐", n:"Sans faute",         d:"Une session parfaite (5 cartes ou plus, aucun « Raté »)", p:() => [S.stats.perfect, 1] },
   { id:"run10",    i:"⚡", n:"Sur une lancée",     d:"10 bonnes réponses d'affilée dans une session", p:() => [S.stats.bestRun, 10] },
+  { id:"pairs20",  i:"🧩", n:"Mains rapides",      d:"Finir « Paires » en moins de 20 s", p:() => [bestPairs() < 20 ? 1 : 0, 1] },
+  { id:"tf20",     i:"✅", n:"Réflexe éclair",     d:"20 points au « Vrai ou faux »",   p:() => [S.games.tf, 20] },
   { id:"lvl4",     i:"🏠", n:"Elanik",             d:"Atteindre le niveau 4 (habitant)", p:() => [levelOf(S.xp) + 1, 4] },
   { id:"lvl7",     i:"👑", n:"Põliseestlane",      d:"Atteindre le niveau 7 (Estonien de souche)", p:() => [levelOf(S.xp) + 1, 7] },
 ];
@@ -798,21 +873,22 @@ function phraseBlock(){
 
 // ---------- navigation ----------
 let view = "home";
-const TABS = [["home","📚","Réviser"],["badges","🏅","Badges"],["lex","📖","Lexique"],["set","⚙️","Réglages"]];
-function tabOn(v){ return v !== "badges" || S.settings.badges; }
+const TABS = [["home","📚","Réviser"],["games","🎮","Jeux"],["badges","🏅","Badges"],["lex","📖","Lexique"],["set","⚙️","Réglages"]];
+function tabOn(v){ return v === "badges" ? S.settings.badges : v === "games" ? GAMES.some(g => S.settings[g.key]) : true; }
 function renderNav(){
   const box = $("#nav .nav-in"); box.replaceChildren();
   TABS.filter(([v]) => tabOn(v)).forEach(([v, ic, l]) => box.append(
     h("button", {role:"tab", "aria-selected": String(view === v), onclick:() => { leave(); go(v); }}, h("span", {class:"ic", "aria-hidden":"true"}, ic), l)));
 }
 function go(v){ view = tabOn(v) ? v : "home"; render(); window.scrollTo(0,0); }
-function leave(){ session = null; }
+function leave(){ session = null; game = null; stopTick(); }
 
 function render(){
   const main = $("#main"); main.replaceChildren();
   if (session) main.append(renderSession());
   else if (view === "home") main.append(renderHome());
   else if (view === "badges") main.append(renderBadges());
+  else if (view === "games") main.append(renderGames());
   else if (view === "lex") main.append(renderLex());
   else main.append(renderSettings());
   renderNav();
@@ -848,7 +924,7 @@ function renderHome(){
       const ids = t.words.map(w => t.id + "|" + w[0]);
       const k = ids.filter(i => statusOf(i) === "k").length, l = ids.filter(i => statusOf(i) === "l").length;
       const on = S.settings.themes.includes(t.id);
-      return h("div", {class:"theme"},
+      return h("div", {class:"theme", "data-th":th(t.id)},
         h("input", {type:"checkbox", id:"th-"+t.id, checked:on, onchange:e => {
           const set = new Set(S.settings.themes); e.target.checked ? set.add(t.id) : set.delete(t.id);
           S.settings.themes = THEMES.map(x => x.id).filter(x => set.has(x)); save(); render();
@@ -912,7 +988,7 @@ function renderSession(){
     h("span", {}, `${Math.min(s.pos+1, s.queue.length)} / ${s.queue.length}`),
     S.settings.xp ? h("span", {class:"sxp"}, `+${s.xp} XP`) : null
   ));
-  const card = h("div", {class:"card"});
+  const card = h("div", {class:"card", "data-th":th(it.theme)});
   card.append(h("div", {class:"card-top"},
     h("span", {class:"chip" + (cur.isNew ? " new" : "")}, cur.isNew ? "Nouveau · " + theme.name : theme.name),
     h("span", {class:"dirl"}, cur.dir === "et" ? "ET → FR" : "FR → ET")
@@ -929,7 +1005,7 @@ function renderSession(){
       wrap.append(card, h("button", {class:"cta", onclick:submitTyped}, "Vérifier"));
       setTimeout(() => { const i = $("#ans"); if (i) i.focus(); }, 30);
     } else {
-      wrap.append(card, h("button", {class:"cta", onclick:() => { s.revealed = true; render(); if (cur.dir === "fr") say(it.et); }}, "Voir la réponse"));
+      wrap.append(card, h("button", {class:"cta", onclick:() => flip(() => { s.revealed = true; render(); if (cur.dir === "fr") say(it.et); })}, "Voir la réponse"));
     }
     return wrap;
   }
@@ -955,10 +1031,20 @@ function renderSession(){
 function submitTyped(){
   const s = session, cur = s.queue[s.pos], i = $("#ans");
   const v = i ? i.value : "";
-  s.typed = v.trim(); s.verdict = check(v, cur.item.et); s.revealed = true;
+  if (s.revealed || flipping) return;
+  s.typed = v.trim(); s.verdict = check(v, cur.item.et);
   if (s.verdict === "ok") S.stats.typedOk++;
   sfx(s.verdict === "no" ? "no" : "ok");
-  render(); say(cur.item.et);
+  flip(() => { s.revealed = true; render(); say(cur.item.et); });
+}
+// retournement 3D de la carte : demi-tour sortant, nouveau contenu, demi-tour entrant
+let flipping = false;
+function flip(fn){
+  const card = $(".card");
+  if (!S.settings.flip || reducedMotion() || !card){ fn(); return; }
+  if (flipping) return;
+  flipping = true; card.classList.add("flip-out");
+  setTimeout(() => { flipping = false; fn(); const c = $(".card"); if (c) c.classList.add("flip-in"); }, 160);
 }
 function grade(q){
   const s = session, cur = s.queue[s.pos], id = cur.item.id, t = today();
@@ -1010,6 +1096,189 @@ function renderDone(){
   );
 }
 
+// ---------- jeux ----------
+let game = null, tick = null;
+function stopTick(){ if (tick){ clearInterval(tick); tick = null; } }
+const GAMES = [
+  { key:"gPairs", id:"pairs", i:"🧩", n:"Paires",       d:"6 mots, 6 traductions : relie-les le plus vite possible" },
+  { key:"gTf",    id:"tf",    i:"⏱️", n:"Vrai ou faux", d:"60 secondes : la traduction est-elle juste ?" },
+];
+function maxLevel(){ return 1; }
+function poolItems(themeId){
+  const on = new Set(S.settings.themes), ml = maxLevel();
+  return ITEMS.filter(i => i.level <= ml && (themeId ? i.theme === themeId : on.has(i.theme)));
+}
+// première traduction seulement : « Bonjour ! / Salut ! » → « Bonjour ! »
+const shortFr = fr => fr.split(" / ")[0];
+const fmtS = ms => (ms / 1000).toFixed(1).replace(".", ",") + " s";
+function bestPairs(){ const v = Object.values(S.games.pairs); return v.length ? Math.min(...v) / 1000 : Infinity; }
+function gameHead(extra){
+  return h("div", {class:"ghead"}, h("button", {class:"x", onclick:() => { leave(); render(); }}, "✕ Quitter"), extra);
+}
+function gameOver(title, lines, xp, again, record){
+  if (record){ confetti(); sfx("level"); } else sfx("done");
+  addXp(xp); save(); checkBadges();
+  game = { type:"over", title, lines, xp, again, record };
+  render();
+}
+function renderGames(){
+  if (game && game.type === "pairs") return renderPairs();
+  if (game && game.type === "pairsPick") return renderPairsPick();
+  if (game && game.type === "tf") return renderTf();
+  if (game && game.type === "over"){
+    const g = game;
+    return h("div", {class:"done"},
+      h("div", {class:"big", lang:"et"}, g.record ? "Rekord!" : "Tubli!"),
+      g.record ? h("p", {}, "Nouveau record !") : null,
+      ...g.lines.map(l => h("p", {}, l)),
+      S.settings.xp ? h("p", {}, h("b", {class:"sxp", style:"font-size:18px"}, `+${g.xp} XP`)) : null,
+      h("button", {class:"cta", onclick:g.again}, "Rejouer"),
+      h("button", {class:"ghost", onclick:() => { game = null; render(); }}, "Autres jeux")
+    );
+  }
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    h("h2", {}, "Jeux"),
+    h("p", {class:"hint"}, "Des parties rapides pour gagner des XP. Elles ne changent pas tes révisions."),
+    h("div", {class:"games"}, GAMES.filter(g => S.settings[g.key]).map(g => gameButton(g)))
+  );
+}
+function gameButton(g){
+  const rec = g.id === "pairs" ? (isFinite(bestPairs()) ? "Record : " + fmtS(bestPairs()*1000) : "")
+            : g.id === "tf" ? (S.games.tf ? `Record : ${S.games.tf} points` : "") : "";
+  return h("button", {class:"game", onclick:() => startGame(g.id)},
+    h("span", {class:"gi", "aria-hidden":"true"}, g.i), h("b", {}, g.n), h("span", {}, g.d + (rec ? " · " + rec : "")));
+}
+function startGame(id){
+  stopTick();
+  if (id === "pairs") game = { type:"pairsPick" };
+  if (id === "tf") startTf();
+  render(); window.scrollTo(0,0);
+}
+
+// --- Paires ---
+function renderPairsPick(){
+  const themes = THEMES.filter(t => pairsCandidates(t.id).length >= 6);
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    gameHead(null),
+    h("h2", {}, "Paires : choisis un thème"),
+    h("div", {class:"pick"}, themes.map(t => {
+      const r = S.games.pairs[t.id];
+      return h("button", {"data-th":th(t.id), onclick:() => startPairs(t.id)}, t.name, h("small", {}, r ? "Record " + fmtS(r) : "—"));
+    }))
+  );
+}
+function pairsCandidates(tid){
+  const seen = new Set(), out = [];
+  shuffle(poolItems(tid).filter(i => i.et.length <= 26 && shortFr(i.fr).length <= 30)).forEach(i => {
+    const k = bare(shortFr(i.fr)); if (seen.has(k) || seen.has("et:" + bare(i.et))) return;
+    seen.add(k); seen.add("et:" + bare(i.et)); out.push(i);
+  });
+  return out;
+}
+function startPairs(tid){
+  const items = pairsCandidates(tid).slice(0, 6);
+  game = { type:"pairs", theme:tid, left:shuffle(items.slice()), right:shuffle(items.slice()), sel:null, done:new Set(), bad:null, errors:0, t0:null };
+  render();
+}
+function pairsTime(){ const g = game; return g.t0 ? Date.now() - g.t0 + g.errors * 2000 : 0; }
+function renderPairs(){
+  const g = game, rec = S.games.pairs[g.theme];
+  if (!tick) tick = setInterval(() => { const c = $("#chrono"); if (c && game && game.type === "pairs") c.textContent = fmtS(pairsTime()); }, 100);
+  const tile = (it, side) => {
+    const key = side + it.id, done = g.done.has(it.id);
+    return h("button", {class:"tile" + (side === "L" ? " et" : "") + (done ? " ok" : "") + (g.sel === key ? " sel" : "") + (g.bad && g.bad.includes(key) ? " bad" : ""),
+      lang: side === "L" ? "et" : "fr", disabled: done, onclick:() => tapPair(it, side)}, side === "L" ? it.et : shortFr(it.fr));
+  };
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    gameHead(h("span", {class:"chrono", id:"chrono"}, fmtS(pairsTime()))),
+    h("p", {class:"hint"}, `${THEME_BY_ID[g.theme].name} · ${rec ? "record " + fmtS(rec) : "pas encore de record"} · erreur = +2 s`),
+    h("div", {class:"pairs"},
+      h("div", {class:"col"}, g.left.map(it => tile(it, "L"))),
+      h("div", {class:"col"}, g.right.map(it => tile(it, "R"))))
+  );
+}
+function tapPair(it, side){
+  const g = game, key = side + it.id;
+  if (!g.t0) g.t0 = Date.now();
+  g.bad = null;
+  if (!g.sel || g.sel[0] === side){ g.sel = g.sel === key ? null : key; sfx("tap"); render(); return; }
+  const other = g.sel.slice(1);
+  if (other === it.id){
+    g.done.add(it.id); g.sel = null; sfx("ok");
+    if (g.done.size === g.left.length){
+      stopTick();
+      const ms = pairsTime(), sec = ms / 1000, prev = S.games.pairs[g.theme];
+      const record = !prev || ms < prev; if (record) S.games.pairs[g.theme] = ms;
+      const xp = Math.max(10, Math.min(50, Math.round(70 - 2 * sec)));
+      const tid = g.theme;
+      gameOver("Paires", [`${THEME_BY_ID[tid].name} : ${fmtS(ms)}${g.errors ? ` (dont ${g.errors * 2} s de pénalité)` : ""}.`, prev ? `Ancien record : ${fmtS(prev)}.` : ""].filter(Boolean),
+        xp, () => startPairs(tid), record);
+      return;
+    }
+  } else {
+    g.bad = [g.sel, key]; g.errors++; g.sel = null; sfx("no");
+  }
+  render();
+}
+
+// --- Vrai ou faux ---
+const TF_MS = 60000;
+function startTf(){
+  let pool = poolItems().filter(i => S.cards[i.id]);
+  if (pool.length < 12) pool = poolItems();
+  if (pool.length < 4) pool = ITEMS.filter(i => i.level <= maxLevel());
+  game = { type:"tf", pool, score:0, wrong:0, end:Date.now() + TF_MS, fb:null };
+  nextTf();
+  stopTick();
+  tick = setInterval(() => {
+    if (!game || game.type !== "tf"){ stopTick(); return; }
+    const left = game.end - Date.now();
+    if (left <= 0){ endTf(); return; }
+    const b = $("#tbar"), n = $("#chrono");
+    if (b){ b.firstChild.style.width = (left / TF_MS * 100) + "%"; b.classList.toggle("low", left < 10000); }
+    if (n) n.textContent = Math.ceil(left / 1000) + " s";
+  }, 100);
+}
+function nextTf(){
+  const g = game, a = g.pool[Math.floor(Math.random() * g.pool.length)];
+  let shown = a, truth = Math.random() < .5;
+  if (!truth){
+    const others = g.pool.filter(i => bare(shortFr(i.fr)) !== bare(shortFr(a.fr)));
+    if (others.length) shown = others[Math.floor(Math.random() * others.length)]; else truth = true;
+  }
+  g.cur = { a, fr: shortFr(shown.fr), truth };
+}
+function answerTf(v){
+  const g = game; if (!g || g.type !== "tf" || Date.now() > g.end) return;
+  const c = g.cur, right = v === c.truth;
+  if (right){ g.score++; sfx("ok"); g.fb = { ok:true, t:"Oui !" }; }
+  else { g.wrong++; sfx("no"); g.fb = { ok:false, t:`Non : ${c.a.et} = ${shortFr(c.a.fr)}` }; }
+  nextTf(); render();
+}
+function endTf(){
+  stopTick();
+  const g = game, prev = S.games.tf, record = g.score > prev;
+  if (record) S.games.tf = g.score;
+  gameOver("Vrai ou faux", [`${g.score} bonne${g.score > 1 ? "s" : ""} réponse${g.score > 1 ? "s" : ""}, ${g.wrong} erreur${g.wrong > 1 ? "s" : ""}.`, prev ? `Record précédent : ${prev}.` : ""].filter(Boolean),
+    g.score * 2, () => { startTf(); render(); }, record && g.score > 0);
+}
+function renderTf(){
+  const g = game, left = Math.max(0, g.end - Date.now());
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    gameHead(h("span", {class:"chrono", id:"chrono"}, Math.ceil(left / 1000) + " s")),
+    h("div", {class:"tbar" + (left < 10000 ? " low" : ""), id:"tbar"}, h("i", {style:`width:${left / TF_MS * 100}%`})),
+    h("p", {class:"hint", style:"text-align:center"}, `Score : ${g.score}` + (S.games.tf ? ` · record ${S.games.tf}` : "")),
+    h("div", {class:"tf", "data-th":th(g.cur.a.theme)},
+      h("div", {class:"tfe", lang:"et"}, g.cur.a.et),
+      h("div", {class:"eq"}, "veut dire"),
+      h("div", {class:"tff"}, g.cur.fr)),
+    h("div", {class:"tfbtns"},
+      h("button", {class:"v", onclick:() => answerTf(true)}, "✓ Vrai"),
+      h("button", {class:"f", onclick:() => answerTf(false)}, "✗ Faux")),
+    h("p", {class:"fb " + (g.fb ? (g.fb.ok ? "ok" : "no") : "")}, g.fb ? g.fb.t : "")
+  );
+}
+
 // ---------- lexique ----------
 let lexQuery = "";
 function renderLex(){
@@ -1025,7 +1294,7 @@ function renderLex(){
     THEMES.forEach(t => {
       const rows = t.words.filter(w => !q || bare(w[0]).includes(q) || bare(w[1]).includes(q));
       if (!rows.length) return;
-      list.append(h("section", {}, h("h3", {}, t.name), h("ul", {}, rows.map(w => {
+      list.append(h("section", {"data-th":th(t.id)}, h("h3", {}, t.name), h("ul", {}, rows.map(w => {
         const id = t.id + "|" + w[0];
         return h("li", {},
           h("span", {class:"dot " + statusOf(id)}),
@@ -1071,8 +1340,12 @@ function renderSettings(){
       onOff("badges", "Badges", "Onglet Badges et notifications de déblocage"),
       onOff("phrase", "Expression du jour", "Sur l'accueil"),
       onOff("confetti", "Confettis", "En fin de session"),
-      onOff("sound", "Sons", "Petits bips de réussite et d'échec")
+      onOff("sound", "Sons", "Petits bips de réussite et d'échec"),
+      onOff("flip", "Carte qui se retourne", "Animation 3D au moment de la réponse"),
+      onOff("colors", "Couleur par thème", "Sur les cartes et la liste des thèmes")
     ),
+    h("h2", {}, "Jeux"),
+    h("div", {class:"set"}, GAMES.map(g => onOff(g.key, g.n, g.d))),
     h("h2", {}, "Son"),
     h("div", {class:"box"},
       h("p", {class:"hint", id:"voiceState"}, ""),
