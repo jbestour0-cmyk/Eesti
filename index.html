@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0A5CAB">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Eesti">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<title>Eesti sõnad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout : une colonne façon appli de poche, 520px max, carte au centre, gros boutons au pouce */
+:root{
+  --bg:#F2F5F8; --surface:#FFFFFF; --surface-2:#E8EEF3;
+  --ink:#0F1A24; --ink-2:#4A5865; --ink-3:#7C8995;
+  --line:#D5DEE6; --accent:#0A5CAB; --accent-ink:#FFFFFF; --accent-soft:#DFEBF7;
+  --good:#23744A; --good-soft:#DCEFE3; --bad:#B03F2B; --bad-soft:#F6E0DA; --warn:#94650E; --warn-soft:#F5EAD3;
+  --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI",sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0B1117; --surface:#131C24; --surface-2:#1A252F;
+  --ink:#E6EDF3; --ink-2:#A3B1BE; --ink-3:#74838F;
+  --line:#25323D; --accent:#5DA8F2; --accent-ink:#06121D; --accent-soft:#14293C;
+  --good:#5DC08B; --good-soft:#12291E; --bad:#EE826B; --bad-soft:#2E1813; --warn:#E2B158; --warn-soft:#2A2112;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1117; --surface:#131C24; --surface-2:#1A252F;
+  --ink:#E6EDF3; --ink-2:#A3B1BE; --ink-3:#74838F;
+  --line:#25323D; --accent:#5DA8F2; --accent-ink:#06121D; --accent-soft:#14293C;
+  --good:#5DC08B; --good-soft:#12291E; --bad:#EE826B; --bad-soft:#2E1813; --warn:#E2B158; --warn-soft:#2A2112;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-block:0 40px}
+.app{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* barre du haut */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:14px 10px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.02em;margin-right:auto;display:flex;align-items:baseline;gap:8px;white-space:nowrap;min-width:0}
+.brand small{font-family:var(--f-body);font-weight:400;font-size:13px;color:var(--ink-3);letter-spacing:0}
+.tabs{display:flex;gap:4px;background:var(--surface-2);padding:3px;border-radius:999px}
+.tabs button{border:0;background:transparent;padding:7px 12px;border-radius:999px;font-size:14px;font-weight:700;color:var(--ink-2)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+
+/* accueil */
+.hero{display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:end;padding-top:6px}
+.hero .due{font-family:var(--f-display);font-weight:800;font-size:64px;line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.hero .due-l{color:var(--ink-2);font-size:15px;grid-column:1}
+.streak{grid-row:1/3;grid-column:2;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.streak b{font-family:var(--f-display);font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--warn)}
+.streak span{font-size:13px;color:var(--ink-3)}
+.cta{width:100%;border:0;border-radius:var(--r);background:var(--accent);color:var(--accent-ink);font-family:var(--f-display);font-weight:700;font-size:20px;padding:18px;letter-spacing:-.01em}
+.cta:disabled{opacity:.45;cursor:default}
+.ghost{width:100%;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:13px;font-weight:700;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.stats div{background:var(--surface);padding:12px 14px;display:flex;flex-direction:column}
+.stats b{font-family:var(--f-display);font-size:24px;font-variant-numeric:tabular-nums}
+.stats span{font-size:12.5px;color:var(--ink-3)}
+h2{font-family:var(--f-display);font-weight:700;font-size:19px;letter-spacing:-.01em;margin:8px 0 0}
+.hint{color:var(--ink-3);font-size:14px;margin:0}
+.themes{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.theme{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line)}
+.theme:last-child{border-bottom:0}
+.theme input{width:22px;height:22px;accent-color:var(--accent);margin:0}
+.theme label{display:flex;flex-direction:column;min-width:0}
+.theme .tn{font-weight:700}
+.theme .te{font-size:13px;color:var(--ink-3);font-style:italic}
+.theme .tc{font-size:13px;color:var(--ink-3);font-variant-numeric:tabular-nums;text-align:right}
+.bar{grid-column:2/4;height:4px;background:var(--surface-2);border-radius:9px;overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.bar .k{background:var(--good)}.bar .l{background:var(--accent)}
+details.guide{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+details.guide summary{font-weight:700;cursor:pointer}
+.guide dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:12px 0 4px}
+.guide dt{font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--accent)}
+.guide dd{margin:0;color:var(--ink-2);font-size:15px;align-self:center}
+
+/* session */
+.prog{display:flex;align-items:center;gap:12px}
+.prog .bar{flex:1;height:6px}
+.prog .bar i{background:var(--accent);transition:width .25s}
+.prog span{font-size:14px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.x{border:0;background:transparent;color:var(--ink-3);font-size:14px;font-weight:700;padding:6px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px 20px 20px;min-height:300px;display:flex;flex-direction:column;gap:14px}
+.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chip{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.chip.new{color:var(--warn)}
+.dirl{font-size:13px;color:var(--ink-3)}
+.prompt{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,8vw,38px);line-height:1.12;letter-spacing:-.02em;margin:auto 0;text-wrap:balance;overflow-wrap:anywhere}
+.prompt.fr{font-family:var(--f-body);font-weight:700;font-size:clamp(24px,6.5vw,30px);letter-spacing:0}
+.answer{border-top:1px dashed var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.answer .a{font-family:var(--f-display);font-weight:700;font-size:26px;line-height:1.2;letter-spacing:-.01em;overflow-wrap:anywhere}
+.answer .a.fr{font-family:var(--f-body);font-size:22px}
+.pron{font-size:15px;color:var(--accent);font-weight:700;letter-spacing:.02em}
+.ex{font-size:15px;color:var(--ink-2)}
+.say{border:1px solid var(--line);background:var(--surface-2);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;color:var(--ink);display:inline-flex;gap:6px;align-items:center}
+.verdict{border-radius:10px;padding:10px 12px;font-size:15px;font-weight:700}
+.verdict.ok{background:var(--good-soft);color:var(--good)}
+.verdict.meh{background:var(--warn-soft);color:var(--warn)}
+.verdict.no{background:var(--bad-soft);color:var(--bad)}
+.type{display:flex;gap:8px}
+.type input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:13px 14px;font-size:19px}
+.type input:focus{border-color:var(--accent);outline:0}
+.keys{display:flex;gap:6px;flex-wrap:wrap}
+.keys button{border:1px solid var(--line);background:var(--surface-2);border-radius:9px;min-width:42px;padding:7px 0;font-size:18px;font-weight:700}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grades button{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700;font-size:15px}
+.grades small{font-weight:400;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.grades .g1{color:var(--bad)}.grades .g3{color:var(--warn)}.grades .g4{color:var(--good)}.grades .g5{color:var(--accent)}
+.grades .sug{border-color:currentColor;box-shadow:inset 0 0 0 1px currentColor}
+.done{text-align:center;padding:30px 10px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.done .big{font-family:var(--f-display);font-weight:800;font-size:44px;letter-spacing:-.03em;line-height:1}
+.done p{margin:0;color:var(--ink-2)}
+
+/* lexique */
+.search{width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;font-size:17px}
+.lex{display:flex;flex-direction:column;gap:18px}
+.lex h3{font-family:var(--f-display);font-size:15px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.07em;margin:0 0 6px}
+.lex ul{list-style:none;margin:0;padding:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.lex li{display:grid;grid-template-columns:10px 1fr auto;gap:2px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+.lex li:last-child{border-bottom:0}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dot.l{background:var(--accent)}.dot.k{background:var(--good)}
+.lex .w{display:flex;flex-direction:column;min-width:0}
+.lex .w b{overflow-wrap:anywhere}
+.lex .w span{font-size:14px;color:var(--ink-2)}
+.lex .w em{font-style:normal;font-size:13px;color:var(--accent)}
+.lex li button{border:0;background:transparent;font-size:18px;padding:6px;color:var(--ink-3)}
+
+/* réglages */
+.set{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row label{font-weight:700}
+.row small{display:block;font-weight:400;color:var(--ink-3);font-size:13px}
+.seg{display:flex;background:var(--surface-2);border-radius:10px;padding:3px;gap:2px;flex-shrink:0}
+.seg button{border:0;background:transparent;border-radius:8px;padding:6px 10px;font-size:14px;font-weight:700;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+textarea{width:100%;min-height:120px;border:1.5px solid var(--line);background:var(--bg);border-radius:12px;padding:10px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btns button{border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:10px 14px;font-weight:700}
+.btns .danger{color:var(--bad)}
+.msg{font-size:14px;color:var(--good);min-height:1em;margin:0}
+.msg.err{color:var(--bad)}
+@media (max-width:460px){.brand small{display:none}.brand{font-size:20px}.tabs button{padding:7px 10px;font-size:13.5px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head><body>
+<div class="app">
+  <header class="top">
+    <div class="brand">Eesti sõnad <small>estonien de poche</small></div>
+    <nav class="tabs" role="tablist">
+      <button data-v="home" aria-selected="true">Réviser</button>
+      <button data-v="lex" aria-selected="false">Lexique</button>
+      <button data-v="set" aria-selected="false">Réglages</button>
+    </nav>
+  </header>
+  <main id="main"></main>
+</div>
+<script>
+// Vocabulaire : [estonien, français, prononciation, exemple ET?, exemple FR?, verify?]
+// Prononciation pour francophone : MAJUSCULES = syllabe accentuée (toujours la 1re en estonien).
+const THEMES = [
+{ id:"base", name:"Bases & politesse", et:"Põhitõed", words:[
+["Tere!","Bonjour ! / Salut !","TÉ-ré"],
+["Tervist!","Bonjour ! (un peu plus formel)","TÉR-vist"],
+["Tere hommikust!","Bonjour ! (le matin)","TÉ-ré HOM-mi-koust"],
+["Tere õhtust!","Bonsoir !","TÉ-ré EUH-toust"],
+["Head aega!","Au revoir !","HÉ-ad AÏ-ga"],
+["Nägemist!","Au revoir ! (à la revoyure)","NÈ-gué-mist"],
+["Head ööd!","Bonne nuit !","HÉ-ad EUUD"],
+["Aitäh!","Merci !","AÏ-tèh"],
+["Tänan!","Je vous remercie.","TÈ-nan"],
+["Palun","S'il vous plaît / Je vous en prie / Tenez","PA-loun"],
+["Vabandust!","Pardon ! / Excusez-moi !","VA-ban-doust"],
+["Jah","Oui","yah"],
+["Ei","Non","eï"],
+["Võib-olla","Peut-être","VEUÏB-ol-la"],
+["Muidugi","Bien sûr","MOUÏ-dou-gui"],
+["Selge","Compris / C'est clair","SEL-gué"],
+["Sobib","Ça me va","SO-bib"],
+["Pole viga","Pas de souci / Ce n'est rien","PO-lé VI-ga"],
+["Kuidas läheb?","Comment ça va ?","KOUÏ-das LÈ-hèb"],
+["Hästi, aitäh.","Bien, merci.","HÈS-ti, AÏ-tèh"],
+["Kõik on korras.","Tout va bien.","KEUÏK on KOR-ras"],
+["Meeldiv tutvuda!","Enchanté(e) !","MÉÉL-div TOUT-vou-da"],
+["Mis su nimi on?","Comment tu t'appelles ?","mis sou NI-mi on"],
+["Minu nimi on …","Je m'appelle …","MI-nou NI-mi on"],
+["Ma olen Prantsusmaalt.","Je viens de France.","ma O-lèn PRANT-sous-maalt"],
+["Ma ei saa aru.","Je ne comprends pas.","ma eï SAA A-rou"],
+["Ma ei tea.","Je ne sais pas.","ma eï TÉ-a"],
+["Kas te räägite inglise keelt?","Vous parlez anglais ?","kas té RÈÈ-gui-té ING-li-sé KÉÉLT"],
+["Ma räägin natuke eesti keelt.","Je parle un peu estonien.","ma RÈÈ-guin NA-tou-ké ÉÉS-ti KÉÉLT"],
+["Palun rääkige aeglasemalt.","Parlez plus lentement, s'il vous plaît.","PA-loun RÈÈ-ki-gué AÏ-gla-sé-malt"],
+["Mida see tähendab?","Qu'est-ce que ça veut dire ?","MI-da SÉÉ TÈ-hen-dab"],
+["Kuidas öelda eesti keeles …?","Comment dit-on en estonien … ?","KOUÏ-das EUÏL-da ÉÉS-ti KÉÉ-lès"],
+["Terviseks!","Santé ! (en trinquant)","TÉR-vi-séks"],
+["Head isu!","Bon appétit !","HÉ-ad I-sou"],
+["Head nädalavahetust!","Bon week-end !","HÉ-ad NÈ-da-la-va-hé-toust"],
+["Edu!","Bonne chance !","É-dou"],
+]},
+{ id:"num", name:"Chiffres & prix", et:"Numbrid ja hinnad", words:[
+["üks","un (1)","UKS (u français)"],
+["kaks","deux (2)","KAKS"],
+["kolm","trois (3)","KOLM"],
+["neli","quatre (4)","NÉ-li"],
+["viis","cinq (5)","VIIS"],
+["kuus","six (6)","KOUUS"],
+["seitse","sept (7)","SEÏT-sé"],
+["kaheksa","huit (8)","KA-hék-sa"],
+["üheksa","neuf (9)","U-hék-sa"],
+["kümme","dix (10)","KUM-mé"],
+["üksteist","onze (11)","UKS-teïst"],
+["kakskümmend","vingt (20)","KAKS-kum-mént"],
+["sada","cent (100)","SA-da"],
+["tuhat","mille (1000)","TOU-hat"],
+["Kui palju see maksab?","Combien ça coûte ?","kouï PAL-you SÉÉ MAK-sab"],
+["viis eurot","cinq euros","VIIS ÉOU-rot"],
+["See on liiga kallis.","C'est trop cher.","SÉÉ on LII-ga KAL-lis"],
+["odav","bon marché","O-dav"],
+["kallis","cher","KAL-lis"],
+["Kas ma saan kaardiga maksta?","Je peux payer par carte ?","kas ma SAAN KAAR-di-ga MAKS-ta"],
+["sularaha","espèces (cash)","SOU-la-ra-ha"],
+["Arve, palun.","L'addition, s'il vous plaît.","AR-vé, PA-loun"],
+["allahindlus","réduction / soldes","AL-la-hind-lous"],
+["tasuta","gratuit","TA-sou-ta"],
+]},
+{ id:"food", name:"Courses & café", et:"Pood ja kohvik", words:[
+["pood","magasin","POOD"],
+["toidupood","supermarché / épicerie","TOÏ-dou-pood"],
+["kassa","caisse","KAS-sa"],
+["Kas soovite kotti?","Vous voulez un sac ?","kas SOO-vi-té KOT-ti"],
+["Kas teil on …?","Vous avez … ?","kas TEÏL on"],
+["Ma võtan selle.","Je prends ça.","ma VEU-tan SEL-lé"],
+["Üks kohv, palun.","Un café, s'il vous plaît.","UKS KOHV, PA-loun"],
+["Kaasa või siin?","À emporter ou sur place ?","KAA-sa veuï SIIN"],
+["leib","pain noir (de seigle)","LEÏB"],
+["sai","pain blanc","SAÏ"],
+["piim","lait","PIIM"],
+["juust","fromage","YOUUST"],
+["vesi","eau","VÉ-si"],
+["kohv","café","KOHV"],
+["tee","thé","TÉÉ"],
+["õlu","bière","EU-lou"],
+["vein","vin","VEÏN"],
+["liha","viande","LI-ha"],
+["kana","poulet","KA-na"],
+["kala","poisson","KA-la"],
+["kartul","pomme de terre","KAR-toul"],
+["muna","œuf","MOU-na"],
+["õun","pomme","EUOUN"],
+["köögiviljad","légumes","KEUU-gui-vil-yad"],
+["puuviljad","fruits","POUU-vil-yad"],
+["suhkur","sucre","SOUH-kour"],
+["sool","sel","SOOL"],
+["avatud","ouvert","A-va-toud"],
+["suletud","fermé","SOU-lé-toud"],
+["Lükka","Poussez (porte)","LUK-ka"],
+["Tõmba","Tirez (porte)","TEUM-ba"],
+["Sissepääs","Entrée","SIS-sé-pèès"],
+["Väljapääs","Sortie","VÈL-ya-pèès"],
+]},
+{ id:"move", name:"Transports & ville", et:"Liikumine", words:[
+["buss","bus","BOUSS"],
+["tramm","tram","TRAMM"],
+["rong","train","RONG"],
+["takso","taxi","TAK-so"],
+["peatus","arrêt","PÉ-a-tous"],
+["Järgmine peatus …","Prochain arrêt …","YÈRG-mi-né PÉ-a-tous"],
+["pilet","billet","PI-lèt"],
+["ühiskaart","carte de transport (Tallinn)","U-his-kaart"],
+["lennujaam","aéroport","LÉN-nou-yaam"],
+["sadam","port","SA-dam"],
+["bussijaam","gare routière","BOUS-si-yaam"],
+["kesklinn","centre-ville","KÉSK-linn"],
+["vanalinn","vieille ville","VA-na-linn"],
+["tänav","rue","TÈ-nav"],
+["Kus on …?","Où est … ?","KOUS on"],
+["Kus on tualett?","Où sont les toilettes ?","KOUS on TOUA-lètt"],
+["vasakule","à gauche","VA-sa-kou-lé"],
+["paremale","à droite","PA-ré-ma-lé"],
+["otse","tout droit","OT-sé"],
+["lähedal","près","LÈ-hé-dal"],
+["kaugel","loin","KAOU-guèl"],
+["Kui kaugel see on?","C'est à quelle distance ?","kouï KAOU-guèl SÉÉ on"],
+["Palun peatage siin.","Arrêtez-vous ici, s'il vous plaît.","PA-loun PÉ-a-ta-gué SIIN"],
+]},
+{ id:"work", name:"Bureau", et:"Töö", words:[
+["töö","travail","TEUU"],
+["kontor","bureau (lieu)","KON-tor"],
+["kolleeg","collègue","KOL-léég"],
+["ülemus","chef / supérieur","U-lé-mous"],
+["koosolek","réunion","KOO-so-lèk"],
+["Mul on koosolek.","J'ai une réunion.","MOUL on KOO-so-lèk"],
+["Lähme lõunale?","On va déjeuner ?","LÈH-mé LEUOU-na-lé"],
+["kohvipaus","pause café","KOH-vi-paous"],
+["arve","facture","AR-vé"],
+["tasumata arve","facture impayée","TA-sou-ma-ta AR-vé"],
+["makse","paiement","MAK-sé"],
+["vaidlus","litige / différend","VAÏD-lous"],
+["klient","client","KLI-ènt"],
+["leping","contrat","LÉ-ping"],
+["tähtaeg","échéance / deadline","TÈH-taïg"],
+["e-kiri","e-mail","É-ki-ri"],
+["Ma saatsin sulle e-kirja.","Je t'ai envoyé un e-mail.","ma SAAT-sin SOUL-lé É-kir-ya"],
+["Mul on küsimus.","J'ai une question.","MOUL on KU-si-mous"],
+["Kas sul on hetk aega?","Tu as un moment ?","kas SOUL on HÈTK AÏ-ga"],
+["arvuti","ordinateur","AR-vou-ti"],
+["Tubli!","Bien joué ! / Bravo !","TOU-bli"],
+["puhkus","vacances / congé","POUH-kous"],
+["palk","salaire","PALK"],
+]},
+{ id:"admin", name:"Logement & démarches", et:"Kodu ja asjaajamine", words:[
+["korter","appartement","KOR-tèr"],
+["üür","loyer","UUR"],
+["üürileping","bail (contrat de location)","UU-ri-lé-ping"],
+["üürileandja","bailleur / propriétaire","UU-ri-lé-and-ya"],
+["aadress","adresse","AA-drèss"],
+["elukoht","lieu de résidence","É-lou-koht"],
+["isikukood","code personnel (n° d'identité)","I-si-kou-kood"],
+["Mis on teie isikukood?","Quel est votre code personnel ?","MIS on TEÏ-é I-si-kou-kood"],
+["ID-kaart","carte d'identité","I-dé-kaart"],
+["linnaosavalitsus","mairie d'arrondissement","LIN-na-o-sa-va-lit-sous"],
+["taotlus","demande (formulaire)","TAOT-lous"],
+["avaldus","déclaration / demande écrite","A-val-dous"],
+["allkiri","signature","ALL-ki-ri"],
+["pass","passeport","PASS"],
+["pank","banque","PANK"],
+["pangakonto","compte bancaire","PAN-ga-kon-to"],
+["maks","impôt / taxe","MAKS"],
+["maksuamet","administration fiscale","MAK-sou-a-mèt"],
+["võti","clé","VEU-ti"],
+["uks","porte","OUKS"],
+["naaber","voisin","NAA-bèr"],
+["küte","chauffage","KU-té"],
+["prügikast","poubelle","PRU-gui-kast"],
+]},
+{ id:"road", name:"Route & permis", et:"Liiklus", words:[
+["juhiluba","permis de conduire","YOU-hi-lou-ba"],
+["autokool","auto-école","AOU-to-kool"],
+["sõidutund","leçon de conduite","SEUÏ-dou-tount"],
+["eksam","examen","ÉK-sam"],
+["foor","feu de circulation","FOOR"],
+["punane","rouge","POU-na-né"],
+["kollane","jaune","KOL-la-né"],
+["roheline","vert","RO-hé-li-né"],
+["ristmik","carrefour","RIST-mik"],
+["ringristmik","rond-point","RING-rist-mik"],
+["jalakäija","piéton","YA-la-kèï-ya"],
+["ülekäigurada","passage piéton","U-lé-kèï-gou-ra-da"],
+["Anna teed","Cédez le passage","AN-na TÉÉD"],
+["Parkimine keelatud","Stationnement interdit","PAR-ki-mi-né KÉÉ-la-toud"],
+["kiiruspiirang","limitation de vitesse","KII-rous-pii-rang"],
+["ühesuunaline tee","route à sens unique","U-hé-souou-na-li-né TÉÉ"],
+["möödasõit","dépassement","MEUU-da-seuït"],
+["Ümbersõit","Déviation","UM-bèr-seuït"],
+["Teetööd","Travaux","TÉÉ-teuud"],
+["pidur","frein","PI-dour"],
+["turvavöö","ceinture de sécurité","TOUR-va-veuu"],
+["talverehvid","pneus hiver","TAL-vé-rèh-vid"],
+["libe tee","route glissante","LI-bé TÉÉ"],
+["tankla","station-service","TANK-la"],
+]},
+{ id:"gym", name:"Salle & boxe", et:"Trenn", words:[
+["trenn","entraînement (séance)","TRÈNN"],
+["Mul on täna trenn.","J'ai entraînement aujourd'hui.","MOUL on TÈ-na TRÈNN"],
+["jõusaal","salle de musculation","YEUOU-saal"],
+["treener","coach / entraîneur","TRÉÉ-nèr"],
+["poks","boxe","POKS"],
+["poksikindad","gants de boxe","POK-si-kin-dad"],
+["poksikott","sac de frappe","POK-si-kott"],
+["võistlus","compétition","VEUÏST-lous"],
+["raund","round","RAOUND"],
+["löök","coup (frappe)","LEUUK"],
+["kaitse","garde / défense","KAÏT-sé"],
+["Käed üles!","Les mains en haut !","KÈ-èd U-lès"],
+["Veel üks kord!","Encore une fois !","VÉÉL UKS KORD"],
+["Kiiremini!","Plus vite !","KII-ré-mi-ni"],
+["Hinga!","Respire !","HIN-ga"],
+["Ma olen väsinud.","Je suis fatigué.","ma O-lèn VÈ-si-nout"],
+["See on valus.","Ça fait mal.","SÉÉ on VA-lous"],
+["paus","pause","PAOUS"],
+["jooksmine","course à pied","YOOKS-mi-né"],
+["riietusruum","vestiaire","RII-é-tous-rououm"],
+["dušš","douche","DOUCHE"],
+["saun","sauna","SAOUN"],
+]},
+{ id:"weather", name:"Météo & hiver", et:"Ilm", words:[
+["ilm","temps (météo)","ILM"],
+["Mis ilm täna on?","Quel temps fait-il aujourd'hui ?","MIS ILM TÈ-na on"],
+["külm","froid","KULM"],
+["Täna on väga külm.","Il fait très froid aujourd'hui.","TÈ-na on VÈ-ga KULM"],
+["soe","chaud (agréable)","SO-é"],
+["kuum","très chaud","KOUOUM"],
+["lumi","neige","LOU-mi"],
+["Sajab lund.","Il neige.","SA-yab LOUNT"],
+["vihm","pluie","VIHM"],
+["Sajab vihma.","Il pleut.","SA-yab VIH-ma"],
+["tuul","vent","TOUOUL"],
+["jää","glace","YÈÈ"],
+["libe","glissant","LI-bé"],
+["pime","sombre / il fait nuit","PI-mé"],
+["päike","soleil","PÈÏ-ké"],
+["miinus kümme kraadi","moins dix degrés","MII-nous KUM-mé KRAA-di"],
+["talv","hiver","TALV"],
+["kevad","printemps","KÉ-vad"],
+["suvi","été","SOU-vi"],
+["sügis","automne","SU-guis"],
+]},
+{ id:"health", name:"Santé & urgences", et:"Tervis", words:[
+["Appi!","Au secours !","AP-pi"],
+["Ma vajan abi.","J'ai besoin d'aide.","ma VA-yan A-bi"],
+["üks-üks-kaks","112 (numéro d'urgence)","UKS-UKS-KAKS"],
+["Kutsuge kiirabi!","Appelez une ambulance !","KOUT-sou-gué KII-ra-bi"],
+["politsei","police","PO-lit-seï"],
+["arst","médecin","ARST"],
+["perearst","médecin traitant","PÉ-ré-arst"],
+["haigla","hôpital","HAÏG-la"],
+["apteek","pharmacie","AP-téék"],
+["ravim","médicament","RA-vim"],
+["Ma olen haige.","Je suis malade.","ma O-lèn HAÏ-gué"],
+["Mul on peavalu.","J'ai mal à la tête.","MOUL on PÉ-a-va-lou"],
+["palavik","fièvre","PA-la-vik"],
+["allergia","allergie","AL-lèr-gui-a"],
+["haigekassa","assurance maladie","HAÏ-gué-kas-sa"],
+["tulekahju","incendie","TOU-lé-kah-you"],
+]},
+{ id:"time", name:"Jours & heures", et:"Aeg", words:[
+["täna","aujourd'hui","TÈ-na"],
+["homme","demain","HOM-mé"],
+["eile","hier","EÏ-lé"],
+["nüüd","maintenant","NUUD"],
+["kohe","tout de suite","KO-hé"],
+["hiljem","plus tard","HIL-yèm"],
+["hommik","matin","HOM-mik"],
+["õhtu","soir","EUH-tou"],
+["esmaspäev","lundi","ÉS-mas-pèèv"],
+["teisipäev","mardi","TEÏ-si-pèèv"],
+["kolmapäev","mercredi","KOL-ma-pèèv"],
+["neljapäev","jeudi","NÉL-ya-pèèv"],
+["reede","vendredi","RÉÉ-dé"],
+["laupäev","samedi","LAOU-pèèv"],
+["pühapäev","dimanche","PU-ha-pèèv"],
+["nädal","semaine","NÈ-dal"],
+["kuu","mois","KOUOU"],
+["aasta","année","AAS-ta"],
+["Mis kell on?","Quelle heure est-il ?","MIS KÈLL on"],
+["kell kolm","à trois heures","KÈLL KOLM"],
+]},
+];
+// ---------- SRS (SM-2) ----------
+function sm2(c, q){
+  // c: {n, ef, iv} ; q: 1 (raté) 3 (difficile) 4 (bien) 5 (facile)
+  let n = c.n||0, ef = c.ef||2.5, iv = c.iv||0;
+  if (q < 3){ n = 0; iv = 1; }
+  else {
+    if (n === 0) iv = (q === 5) ? 3 : 1;
+    else if (n === 1) iv = (q === 3) ? 3 : 6;
+    else iv = Math.max(iv + 1, Math.round(iv * ef * (q === 3 ? 0.8 : 1) * (q === 5 ? 1.3 : 1)));
+    n += 1;
+  }
+  ef = Math.max(1.3, ef + 0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+  return { n, ef: Math.round(ef*100)/100, iv };
+}
+function today(){ const d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset()*60000) / 864e5); }
+function fmtIv(d){ return d <= 1 ? "1 j" : d < 30 ? d + " j" : d < 365 ? Math.round(d/30) + " mois" : Math.round(d/365) + " an"; }
+
+// ---------- données ----------
+const ITEMS = [];
+THEMES.forEach(t => t.words.forEach(w => ITEMS.push({ id: t.id + "|" + w[0], theme: t.id, et: w[0], fr: w[1], pr: w[2] })));
+const BY_ID = Object.fromEntries(ITEMS.map(i => [i.id, i]));
+const THEME_BY_ID = Object.fromEntries(THEMES.map(t => [t.id, t]));
+
+const KEY = "eesti.sonad.v1";
+const DEFAULT = { cards:{}, intro:{}, streak:0, lastDay:null, reviews:{},
+  settings:{ size:10, newPerDay:10, dir:"mixed", mode:"flip", themes: THEMES.map(t => t.id) } };
+let S = load();
+function load(){
+  try { const raw = localStorage.getItem(KEY); if (raw){ const s = JSON.parse(raw); return merge(s); } } catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT));
+}
+function merge(s){
+  const d = JSON.parse(JSON.stringify(DEFAULT));
+  const out = Object.assign(d, s || {});
+  out.settings = Object.assign(JSON.parse(JSON.stringify(DEFAULT.settings)), (s && s.settings) || {});
+  out.cards = out.cards || {}; out.intro = out.intro || {}; out.reviews = out.reviews || {};
+  return out;
+}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+
+function statusOf(id){ const c = S.cards[id]; if (!c) return "n"; return c.iv >= 21 ? "k" : "l"; }
+function enabledItems(){ const on = new Set(S.settings.themes); return ITEMS.filter(i => on.has(i.theme)); }
+function dueItems(){ const t = today(); return enabledItems().filter(i => S.cards[i.id] && S.cards[i.id].due <= t).sort((a,b) => S.cards[a.id].due - S.cards[b.id].due); }
+function newLeftToday(){ return Math.max(0, S.settings.newPerDay - (S.intro[today()] || 0)); }
+function newItems(limit){ return enabledItems().filter(i => !S.cards[i.id]).slice(0, limit); }
+
+// ---------- audio ----------
+let VOICE = null;
+function pickVoice(){
+  try {
+    const vs = speechSynthesis.getVoices();
+    VOICE = vs.find(v => /^et([-_]|$)/i.test(v.lang)) || null;
+  } catch(e){ VOICE = null; }
+  document.querySelectorAll("[data-say]").forEach(b => b.hidden = !VOICE);
+  const st = document.getElementById("voiceState");
+  if (st) st.textContent = VOICE ? "Voix estonienne trouvée : " + VOICE.name : "Aucune voix estonienne sur cet appareil. L'appli marche sans le son.";
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(text){
+  if (!VOICE) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/…/g,"")); u.voice = VOICE; u.lang = VOICE.lang; u.rate = 0.85; speechSynthesis.speak(u); } catch(e){}
+}
+
+// ---------- utilitaires ----------
+const $ = (s, r=document) => r.querySelector(s);
+function h(tag, attrs={}, ...kids){
+  const el = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)){
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, "");
+    else if (v !== false && v != null) el.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => { if (c != null && c !== false) el.append(c.nodeType ? c : document.createTextNode(c)); });
+  return el;
+}
+function norm(s){ return s.toLowerCase().replace(/[!?.,…;:«»"'()]/g," ").replace(/\s+/g," ").trim(); }
+function bare(s){ return norm(s).normalize("NFD").replace(/[̀-ͯ]/g,""); }
+function check(input, target){
+  const a = norm(input), b = norm(target);
+  if (!a) return "no";
+  if (a === b) return "ok";
+  if (bare(a) === bare(b)) return "meh";
+  return "no";
+}
+
+// ---------- navigation ----------
+let view = "home";
+function go(v){ view = v; document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.v === v)); render(); window.scrollTo(0,0); }
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => { session = null; go(b.dataset.v); }));
+
+function render(){
+  const main = $("#main"); main.replaceChildren();
+  if (session) main.append(renderSession());
+  else if (view === "home") main.append(renderHome());
+  else if (view === "lex") main.append(renderLex());
+  else main.append(renderSettings());
+  pickVoice();
+}
+
+// ---------- accueil ----------
+function renderHome(){
+  const due = dueItems().length, nl = Math.min(newLeftToday(), newItems(999).length);
+  const total = Math.min(S.settings.size, due + nl);
+  const learned = Object.keys(S.cards).length;
+  const known = Object.values(S.cards).filter(c => c.iv >= 21).length;
+  const streakAlive = S.lastDay === today() || S.lastDay === today() - 1;
+  const frag = h("div", {class:"app-sec", style:"display:flex;flex-direction:column;gap:16px"},
+    h("div", {class:"hero"},
+      h("div", {class:"due"}, String(total)),
+      h("div", {class:"streak"}, h("b", {}, String(streakAlive ? S.streak : 0)), h("span", {}, "jours d'affilée")),
+      h("div", {class:"due-l"}, total ? `cartes pour aujourd'hui · ${Math.min(due, S.settings.size)} à revoir, ${Math.max(0,total - Math.min(due,S.settings.size))} nouvelles` : "Rien de prévu aujourd'hui. Tu peux faire une session bonus.")
+    ),
+    total ? h("button", {class:"cta", onclick:() => start(false)}, "Commencer")
+          : h("button", {class:"cta", onclick:() => start(true)}, "Session bonus"),
+    h("div", {class:"stats"},
+      h("div", {}, h("b", {}, String(learned)), h("span", {}, "vus")),
+      h("div", {}, h("b", {}, String(known)), h("span", {}, "maîtrisés")),
+      h("div", {}, h("b", {}, String(ITEMS.length)), h("span", {}, "au total"))
+    ),
+    h("h2", {}, "Thèmes"),
+    h("p", {class:"hint"}, "Décoche ce qui ne t'intéresse pas pour l'instant. Les nouveaux mots arrivent dans l'ordre de la liste."),
+    h("div", {class:"themes"}, THEMES.map(t => {
+      const ids = t.words.map(w => t.id + "|" + w[0]);
+      const k = ids.filter(i => statusOf(i) === "k").length, l = ids.filter(i => statusOf(i) === "l").length;
+      const on = S.settings.themes.includes(t.id);
+      return h("div", {class:"theme"},
+        h("input", {type:"checkbox", id:"th-"+t.id, checked:on, onchange:e => {
+          const set = new Set(S.settings.themes); e.target.checked ? set.add(t.id) : set.delete(t.id);
+          S.settings.themes = THEMES.map(x => x.id).filter(x => set.has(x)); save(); render();
+        }}),
+        h("label", {for:"th-"+t.id}, h("span", {class:"tn"}, t.name), h("span", {class:"te"}, t.et)),
+        h("span", {class:"tc"}, `${k+l} / ${ids.length}`),
+        h("div", {class:"bar"}, h("i", {class:"k", style:`width:${k/ids.length*100}%`}), h("i", {class:"l", style:`width:${l/ids.length*100}%`}))
+      );
+    })),
+    h("details", {class:"guide"},
+      h("summary", {}, "Prononcer l'estonien en 1 minute"),
+      h("dl", {},
+        h("dt", {}, "1re"), h("dd", {}, "L'accent tombe toujours sur la première syllabe (en MAJUSCULES dans l'appli)."),
+        h("dt", {}, "aa"), h("dd", {}, "Lettre doublée = son long. « kalla » ≠ « kala »."),
+        h("dt", {}, "õ"), h("dd", {}, "Entre « eu » et « ou », lèvres non arrondies. Le son le plus estonien."),
+        h("dt", {}, "ä"), h("dd", {}, "« è » très ouvert, comme dans « mère »."),
+        h("dt", {}, "ö"), h("dd", {}, "« eu » comme dans « peu »."),
+        h("dt", {}, "ü"), h("dd", {}, "« u » français, comme dans « lune »."),
+        h("dt", {}, "u"), h("dd", {}, "Se dit « ou »."),
+        h("dt", {}, "j"), h("dd", {}, "Se dit « y » : jah = « yah »."),
+        h("dt", {}, "h"), h("dd", {}, "Toujours expiré, comme en anglais."),
+        h("dt", {}, "r"), h("dd", {}, "Roulé, du bout de la langue.")
+      )
+    )
+  );
+  return frag;
+}
+
+// ---------- session ----------
+let session = null;
+function start(bonus){
+  let due = dueItems().slice(0, S.settings.size);
+  let fresh = newItems(bonus ? S.settings.size : newLeftToday()).slice(0, S.settings.size - due.length);
+  if (bonus && !fresh.length){
+    // tout est vu : révision anticipée des cartes les plus proches
+    due = enabledItems().filter(i => S.cards[i.id]).sort((a,b) => S.cards[a.id].due - S.cards[b.id].due).slice(0, S.settings.size);
+  }
+  const q = [...due, ...fresh].map(i => ({ item:i, isNew: !S.cards[i.id], again:false }));
+  if (!q.length){ return; }
+  // mélange léger : les nouvelles intercalées
+  for (let i = q.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [q[i], q[j]] = [q[j], q[i]]; }
+  session = { queue:q, pos:0, total:q.length, revealed:false, typed:null, verdict:null, correct:0, seen:0 };
+  prepCard(); render();
+}
+function prepCard(){
+  const cur = session.queue[session.pos]; if (!cur) return;
+  const d = S.settings.dir;
+  cur.dir = cur.isNew && !cur.again ? "et" : d === "mixed" ? (Math.random() < .5 ? "et" : "fr") : d;
+  session.revealed = false; session.typed = null; session.verdict = null;
+}
+function renderSession(){
+  const s = session, cur = s.queue[s.pos];
+  if (!cur) return renderDone();
+  const it = cur.item, theme = THEME_BY_ID[it.theme];
+  const typing = S.settings.mode === "type" && cur.dir === "fr";
+  const promptText = cur.dir === "et" ? it.et : it.fr;
+  const wrap = h("div", {style:"display:flex;flex-direction:column;gap:14px"});
+  wrap.append(h("div", {class:"prog"},
+    h("button", {class:"x", onclick:() => { session = null; render(); }}, "✕ Quitter"),
+    h("div", {class:"bar"}, h("i", {style:`width:${s.pos/s.queue.length*100}%`})),
+    h("span", {}, `${Math.min(s.pos+1, s.queue.length)} / ${s.queue.length}`)
+  ));
+  const card = h("div", {class:"card"});
+  card.append(h("div", {class:"card-top"},
+    h("span", {class:"chip" + (cur.isNew ? " new" : "")}, cur.isNew ? "Nouveau · " + theme.name : theme.name),
+    h("span", {class:"dirl"}, cur.dir === "et" ? "ET → FR" : "FR → ET")
+  ));
+  card.append(h("div", {class:"prompt" + (cur.dir === "fr" ? " fr" : ""), lang: cur.dir === "et" ? "et" : "fr"}, promptText));
+  if (cur.dir === "et") card.append(h("div", {}, h("button", {class:"say", "data-say":true, onclick:() => say(it.et)}, "🔊 Écouter")));
+
+  if (!s.revealed){
+    if (typing){
+      const inp = h("input", {id:"ans", type:"text", autocomplete:"off", autocapitalize:"off", spellcheck:"false", lang:"et", placeholder:"Écris en estonien…", "aria-label":"Ta réponse en estonien",
+        onkeydown:e => { if (e.key === "Enter") submitTyped(); }});
+      card.append(h("div", {class:"type"}, inp));
+      card.append(h("div", {class:"keys"}, ["õ","ä","ö","ü","š","ž"].map(ch => h("button", {type:"button", onclick:() => { const i = $("#ans"); const p = i.selectionStart ?? i.value.length; i.value = i.value.slice(0,p) + ch + i.value.slice(p); i.focus(); i.setSelectionRange(p+1,p+1); }}, ch))));
+      wrap.append(card, h("button", {class:"cta", onclick:submitTyped}, "Vérifier"));
+      setTimeout(() => { const i = $("#ans"); if (i) i.focus(); }, 30);
+    } else {
+      wrap.append(card, h("button", {class:"cta", onclick:() => { s.revealed = true; render(); if (cur.dir === "fr") say(it.et); }}, "Voir la réponse"));
+    }
+    return wrap;
+  }
+
+  const ans = h("div", {class:"answer"});
+  if (s.verdict){
+    const msg = { ok:"Exact !", meh:"Presque : attention aux lettres accentuées.", no:"Pas tout à fait." }[s.verdict];
+    ans.append(h("div", {class:"verdict " + s.verdict}, msg + (s.verdict !== "ok" && s.typed ? ` Tu as écrit « ${s.typed} ».` : "")));
+  }
+  ans.append(h("div", {class:"a" + (cur.dir === "et" ? " fr" : ""), lang: cur.dir === "et" ? "fr" : "et"}, cur.dir === "et" ? it.fr : it.et));
+  ans.append(h("div", {class:"pron"}, "[ " + it.pr + " ]"));
+  if (cur.dir === "fr") ans.append(h("div", {}, h("button", {class:"say", "data-say":true, onclick:() => say(it.et)}, "🔊 Écouter")));
+  card.append(ans);
+  wrap.append(card);
+
+  const c = S.cards[it.id] || {n:0, ef:2.5, iv:0};
+  const sug = s.verdict === "ok" ? 4 : s.verdict === "meh" ? 3 : s.verdict === "no" ? 1 : null;
+  wrap.append(h("div", {class:"grades"}, [[1,"Raté"],[3,"Difficile"],[4,"Bien"],[5,"Facile"]].map(([q,l]) =>
+    h("button", {class:"g"+q + (sug === q ? " sug" : ""), onclick:() => grade(q)}, l, h("small", {}, q < 3 ? "à revoir" : fmtIv(sm2(c,q).iv)))
+  )));
+  return wrap;
+}
+function submitTyped(){
+  const s = session, cur = s.queue[s.pos], i = $("#ans");
+  const v = i ? i.value : "";
+  s.typed = v.trim(); s.verdict = check(v, cur.item.et); s.revealed = true; render(); say(cur.item.et);
+}
+function grade(q){
+  const s = session, cur = s.queue[s.pos], id = cur.item.id, t = today();
+  if (cur.isNew && !cur.again){ S.intro[t] = (S.intro[t] || 0) + 1; }
+  const prev = S.cards[id] || {n:0, ef:2.5, iv:0};
+  const next = sm2(prev, q);
+  S.cards[id] = { ...next, due: t + next.iv, last: t };
+  S.reviews[t] = (S.reviews[t] || 0) + 1;
+  s.seen++; if (q >= 3) s.correct++;
+  if (q < 3 && !cur.again) s.queue.push({ item: cur.item, isNew: cur.isNew, again: true });
+  // série
+  if (S.lastDay !== t){ S.streak = (S.lastDay === t - 1) ? S.streak + 1 : 1; S.lastDay = t; }
+  // garde seulement 60 jours d'historique
+  for (const k of Object.keys(S.intro)) if (+k < t - 60) delete S.intro[k];
+  for (const k of Object.keys(S.reviews)) if (+k < t - 60) delete S.reviews[k];
+  save();
+  s.pos++; prepCard(); render();
+}
+function renderDone(){
+  const s = session;
+  const pct = s.seen ? Math.round(s.correct / s.seen * 100) : 0;
+  return h("div", {class:"done"},
+    h("div", {class:"big"}, "Tubli!"),
+    h("p", {}, `Session terminée : ${s.total} cartes, ${pct} % de réponses réussies.`),
+    h("p", {}, `Série : ${S.streak} jour${S.streak > 1 ? "s" : ""} d'affilée.`),
+    h("button", {class:"cta", onclick:() => { session = null; go("home"); }}, "Retour à l'accueil"),
+    h("button", {class:"ghost", onclick:() => start(true)}, "Encore une session")
+  );
+}
+
+// ---------- lexique ----------
+let lexQuery = "";
+function renderLex(){
+  const wrap = h("div", {style:"display:flex;flex-direction:column;gap:14px"});
+  const inp = h("input", {class:"search", id:"lexq", type:"search", placeholder:"Chercher un mot (estonien ou français)", value:lexQuery,
+    oninput:e => { lexQuery = e.target.value; fill(); }});
+  const list = h("div", {class:"lex"});
+  const legend = h("p", {class:"hint"}, "● bleu : en cours d'apprentissage · ● vert : maîtrisé (révision dans 3 semaines ou plus)");
+  wrap.append(inp, legend, list);
+  function fill(){
+    list.replaceChildren();
+    const q = bare(lexQuery);
+    THEMES.forEach(t => {
+      const rows = t.words.filter(w => !q || bare(w[0]).includes(q) || bare(w[1]).includes(q));
+      if (!rows.length) return;
+      list.append(h("section", {}, h("h3", {}, t.name), h("ul", {}, rows.map(w => {
+        const id = t.id + "|" + w[0];
+        return h("li", {},
+          h("span", {class:"dot " + statusOf(id)}),
+          h("div", {class:"w"}, h("b", {lang:"et"}, w[0]), h("span", {}, w[1]), h("em", {}, w[2])),
+          h("button", {"data-say":true, "aria-label":"Écouter " + w[0], onclick:() => say(w[0])}, "🔊")
+        );
+      }))));
+    });
+    if (!list.children.length) list.append(h("p", {class:"hint"}, "Aucun mot ne correspond."));
+    pickVoice();
+  }
+  fill();
+  return wrap;
+}
+
+// ---------- réglages ----------
+function seg(key, opts){
+  return h("div", {class:"seg"}, opts.map(([v,l]) => h("button", {"aria-pressed": String(S.settings[key] === v), onclick:() => { S.settings[key] = v; save(); render(); }}, l)));
+}
+function renderSettings(){
+  const exp = h("textarea", {id:"exportBox", readonly:true, hidden:true});
+  const imp = h("textarea", {id:"importBox", placeholder:"Colle ici une sauvegarde…"});
+  const msg = h("p", {class:"msg", id:"msg"});
+  let armedReset = false;
+  const resetBtn = h("button", {class:"danger", onclick:() => {
+    if (!armedReset){ armedReset = true; resetBtn.textContent = "Confirmer : tout effacer"; return; }
+    S = JSON.parse(JSON.stringify(DEFAULT)); save(); render();
+  }}, "Remettre à zéro");
+  return h("div", {style:"display:flex;flex-direction:column;gap:14px"},
+    h("h2", {}, "Sessions"),
+    h("div", {class:"set"},
+      h("div", {class:"row"}, h("label", {}, "Cartes par session"), seg("size", [[10,"10"],[20,"20"],[30,"30"]])),
+      h("div", {class:"row"}, h("label", {}, "Nouveaux mots / jour", h("small", {}, "10 suffit pour tenir sans saturer")), seg("newPerDay", [[5,"5"],[10,"10"],[20,"20"]])),
+      h("div", {class:"row"}, h("label", {}, "Sens"), seg("dir", [["et","ET→FR"],["fr","FR→ET"],["mixed","Mixte"]])),
+      h("div", {class:"row"}, h("label", {}, "Réponse", h("small", {}, "« Écrire » s'applique quand tu dois trouver le mot estonien")), seg("mode", [["flip","Retourner"],["type","Écrire"]]))
+    ),
+    h("h2", {}, "Son"),
+    h("div", {class:"box"},
+      h("p", {class:"hint", id:"voiceState"}, ""),
+      h("p", {class:"hint"}, "Le son utilise la synthèse vocale de ton téléphone. Si aucune voix estonienne n'apparaît, regarde dans les réglages de synthèse vocale du téléphone si l'estonien peut être téléchargé, puis rouvre l'appli.")
+    ),
+    h("h2", {}, "Sauvegarde"),
+    h("div", {class:"box"},
+      h("p", {class:"hint"}, "Ta progression est enregistrée dans ce navigateur. Pour la passer sur un autre appareil, copie-la ici puis colle-la là-bas."),
+      h("div", {class:"btns"},
+        h("button", {onclick:async () => {
+          const txt = JSON.stringify(S); exp.value = txt; exp.hidden = false;
+          try { await navigator.clipboard.writeText(txt); msg.className = "msg"; msg.textContent = "Sauvegarde copiée."; }
+          catch(e){ exp.focus(); exp.select(); msg.className = "msg"; msg.textContent = "Sélectionne le texte ci-dessous et copie-le."; }
+        }}, "Copier ma progression")
+      ),
+      exp,
+      imp,
+      h("div", {class:"btns"},
+        h("button", {onclick:() => {
+          try { const s = JSON.parse(imp.value); if (!s || typeof s.cards !== "object") throw 0; S = merge(s); save(); msg.className = "msg"; msg.textContent = "Progression importée."; setTimeout(render, 600); }
+          catch(e){ msg.className = "msg err"; msg.textContent = "Ce texte n'est pas une sauvegarde valide. Recopie-la en entier."; }
+        }}, "Importer"),
+        resetBtn
+      ),
+      msg
+    ),
+    h("p", {class:"hint"}, `${ITEMS.length} mots et expressions, prononciations approximatives pour francophone. Fais valider les tournures par un collègue estonien.`)
+  );
+}
+
+render();
+</script>
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});</script>
+</body></html>
